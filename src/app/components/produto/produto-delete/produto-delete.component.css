@@ -1,0 +1,55 @@
+.container-wrapper {
+  padding: 24px;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .form-container {
+    background: #fff;
+    border-radius: 8px;
+  }
+
+  .form-title {
+    margin-bottom: 24px;
+    color: #262626;
+  }
+
+  .form-section-title {
+    margin: 16px 0;
+    color: #595959;
+    font-size: 16px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+
+    nz-form-item {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .form-item-full {
+      flex: 0 0 100%;
+    }
+  }
+
+  .char-counter {
+    text-align: right;
+    color: #8c8c8c;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #f0f0f0;
+  }
+}

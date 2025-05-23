@@ -78,8 +78,9 @@ export class TipoProdutoListComponent {
     this.tipoService.buscarPaginado(params).subscribe({
       next: (response) => {
         this.tipos = response.content;
+        console.log(response);
         this.nenhumResultadoEncontrado = this.tipos.length === 0;
-        this.totalElementos = response.totalElements;
+        this.totalElementos = response.page.totalElements;
         this.carregando = false;
         if (this.nenhumResultadoEncontrado) {
           this.alertaService.mostrarAlerta(

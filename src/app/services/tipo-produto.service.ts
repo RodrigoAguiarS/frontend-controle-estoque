@@ -85,7 +85,7 @@ export class TipoProdutoService {
     nome?: string;
     descricao?: string;
     margemLucro?: string;
-  }): Observable<{ content: TipoProduto[]; totalElements: number }> {
+  }): Observable<{ content: TipoProduto[]; page: { totalElements: number } }> {
     let url = `${API_CONFIG.baseUrl}/tiposprodutos?page=${params.page}&size=${params.size}`;
 
     if (params.id) {
@@ -104,8 +104,9 @@ export class TipoProdutoService {
       url += `&margemLucro=${encodeURIComponent(params.margemLucro)}`;
     }
 
-    return this.http.get<{ content: TipoProduto[]; totalElements: number }>(
-      url
-    );
+    return this.http.get<{
+      content: TipoProduto[];
+      page: { totalElements: number };
+    }>(url);
   }
 }

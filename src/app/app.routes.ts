@@ -6,8 +6,6 @@ import { ResultComponent } from './components/result/result.component';
 export const routes: Routes = [
   // Rotas sem menu (exemplo: login)
   // { path: 'login', component: LoginComponent },
-
-  // Rotas com menu (NavComponent)
   {
     path: '',
     component: NavComponent,
@@ -19,6 +17,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./components/tipo/tipo-produto.routes').then(
             (m) => m.tipoProdutoRoutes
+          ),
+      },
+      {
+        path: 'produtos',
+        loadChildren: () =>
+          import('./components/produto/produto.routes').then(
+            (m) => m.produtoRoutes
           ),
       },
       {
