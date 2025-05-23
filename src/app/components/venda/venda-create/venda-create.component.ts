@@ -5,7 +5,13 @@ import { FormaDePagamentoService } from '../../../services/forma-de-pagamento.se
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -41,7 +47,7 @@ import { Router } from '@angular/router';
     NzDrawerModule,
     NzListModule,
     NzSelectModule,
-    NzFormModule
+    NzFormModule,
   ],
   templateUrl: './venda-create.component.html',
   styleUrl: './venda-create.component.css',
@@ -54,7 +60,6 @@ export class VendaCreateComponent {
   acrescimo = 0;
   drawerVisible = false;
   showAutocomplete = false;
-  isLoading = false;
   today = new Date();
 
   produtos: Produto[] = [];
@@ -106,15 +111,7 @@ export class VendaCreateComponent {
   }
 
   private carregarDadosIniciais(): void {
-    this.carregarProdutos();
     this.carregarPagamentos();
-  }
-
-  private carregarProdutos(): void {
-    this.produtoService.findAll().subscribe((produtos: Produto[]) => {
-      this.produtos = produtos;
-      this.produtosAutocomplete = produtos.map((produto) => produto.descricao);
-    });
   }
 
   private observarItensCarrinho(): void {
@@ -135,6 +132,18 @@ export class VendaCreateComponent {
   onInput(event: any): void {
     const value = event.target.value.toLowerCase();
     this.produtoMap.clear();
+
+    if (this.produtos.length === 0) {
+      this.produtoService.findAll().subscribe((produtos: Produto[]) => {
+        this.produtos = produtos;
+        this.filtrarProdutos(value);
+      });
+    } else {
+      this.filtrarProdutos(value);
+    }
+  }
+
+  private filtrarProdutos(value: string): void {
     if (value.length > 0) {
       this.produtosAutocomplete = this.produtos
         .filter(
@@ -215,7 +224,7 @@ export class VendaCreateComponent {
     });
   }
 
-  confirmarVenda(): void {
+  private confirmarVenda(): void {
     this.atualizarFormulario();
 
     if (this.pdvForm.valid) {
@@ -262,9 +271,12 @@ export class VendaCreateComponent {
     this.taxaPagamento = 0;
   }
 
-  atualizarValores() {
+  private atualizarValores() {
     this.valorParcial = +this.itensCarrinho
-      .reduce((total, item) => total + item.produto.valorVenda * item.quantidade, 0)
+      .reduce(
+        (total, item) => total + item.produto.valorVenda * item.quantidade,
+        0
+      )
       .toFixed(2);
     this.taxaPagamento = +((this.valorParcial * this.acrescimo) / 100).toFixed(
       2
@@ -274,25 +286,6 @@ export class VendaCreateComponent {
       (this.valorParcial * this.acrescimo) / 100
     ).toFixed(2);
   }
-
-  voltarParaHome(): void {
-  // Se houver itens no carrinho, confirme antes de sair
-  if (this.itensCarrinho.length > 0) {
-    this.modalService.confirm({
-      nzTitle: 'Cancelar venda',
-      nzContent: 'Deseja realmente cancelar esta venda? Todos os itens serão perdidos.',
-      nzOkText: 'Sim',
-      nzOkType: 'default',
-      nzCancelText: 'Não',
-      nzOnOk: () => {
-        this.carrinhoService.limparCarrinho();
-        this.router.navigate(['/']);
-      }
-    });
-  } else {
-    this.router.navigate(['/']);
-  }
-}
 
   openDrawer(): void {
     this.drawerVisible = true;

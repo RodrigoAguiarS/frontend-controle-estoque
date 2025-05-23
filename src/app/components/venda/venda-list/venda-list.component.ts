@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { Venda } from '../../../model/Venda';
 import { FormaDePagamento } from '../../../model/FormaDePagamento';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { VendaService } from '../../../services/venda.service';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { FormaDePagamentoService } from '../../../services/forma-de-pagamento.service';
@@ -44,10 +49,9 @@ import { NgxCurrencyDirective } from 'ngx-currency';
     NzAlertModule,
   ],
   templateUrl: './venda-list.component.html',
-  styleUrl: './venda-list.component.css'
+  styleUrl: './venda-list.component.css',
 })
 export class VendaListComponent {
-
   vendas: Venda[] = [];
   pagamentos: FormaDePagamento[] = [];
   carregando = false;
@@ -161,8 +165,8 @@ export class VendaListComponent {
 
   gerarCupomVenda(vendaId: number): void {
     this.carregando = true;
-    this.vendaService.gerarCupomVenda(vendaId).subscribe(
-      (response) => {
+    this.vendaService.gerarCupomVenda(vendaId).subscribe({
+      next: (response) => {
         const blob = new Blob([response], { type: 'application/pdf' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -172,11 +176,14 @@ export class VendaListComponent {
         window.URL.revokeObjectURL(url);
         this.carregando = false;
       },
-      (error) => {
+      error: (error) => {
         console.error('Erro ao gerar o cupom:', error);
         this.carregando = false;
-      }
-    );
+        this.message.error('Erro ao gerar o cupom da venda');
+      },
+      complete: () => {
+        // Opcional: código a ser executado quando o observable completar
+      },
+    });
   }
 }
-

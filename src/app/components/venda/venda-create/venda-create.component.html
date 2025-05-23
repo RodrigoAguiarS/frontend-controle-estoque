@@ -104,6 +104,7 @@
               </td>
               <td class="col-action">
                 <button
+                  type="button"
                   class="remove-btn"
                   (click)="removerItem(item.produto.id)"
                 >
@@ -144,7 +145,7 @@
             }}</span>
           </div>
 
-          <div class="summary-item" *ngIf="acrescimo > 0">
+          <div class="summary-item">
             <span class="summary-label">Taxa ({{ acrescimo }}%):</span>
             <span class="summary-value">{{
               taxaPagamento | currency : "BRL"
@@ -185,7 +186,6 @@
           nzType="default"
           class="cancel-btn"
           (click)="resetForm()"
-          (click)="voltarParaHome()"
         >
           <i nz-icon nzType="close"></i>
           Limpar Venda

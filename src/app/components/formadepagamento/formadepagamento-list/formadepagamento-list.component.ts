@@ -21,7 +21,6 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'app-formadepagamento-list',
