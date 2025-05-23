@@ -1,0 +1,58 @@
+/* Exemplo de CSS global para tabelas padrão */
+/* filepath: d:\MeusDocumentos\PROJETOS\frontend-controle-estoque\src\styles.css */
+
+.tabela-padrao {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: #fff;
+  font-size: 15px;
+}
+
+.tabela-padrao th,
+.tabela-padrao td {
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.tabela-padrao th {
+  background: #f5f5f5;
+  font-weight: bold;
+  color: #333;
+}
+
+.tabela-padrao tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.tabela-padrao tr:hover {
+  background: #e6f7ff;
+}
+
+.tabela-padrao td a {
+  margin-right: 8px;
+  color: #1890ff;
+  transition: color 0.2s;
+}
+
+.tabela-padrao td a:hover {
+  color: #40a9ff;
+}
+
+.container-busca {
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.container-busca input {
+  margin-right: 8px;
+  min-width: 180px;
+}
+
+.container-busca button {
+  margin-left: 8px;
+}

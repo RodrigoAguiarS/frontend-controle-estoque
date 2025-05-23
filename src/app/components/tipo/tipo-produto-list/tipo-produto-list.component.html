@@ -1,0 +1,77 @@
+<div class="container">
+  <h1>Tipos de Produto</h1>
+
+  <nz-alert
+    *ngIf="
+      (alertaService.tipoAlerta$ | async) &&
+      (alertaService.mensagemAlerta$ | async)
+    "
+    [nzType]="(alertaService.tipoAlerta$ | async) || 'info'"
+    [nzMessage]="alertaService.mensagemAlerta$ | async"
+    nzShowIcon
+    nzCloseable
+    (nzOnClose)="alertaService.limparAlerta()"
+  ></nz-alert>
+
+  <div class="container-busca">
+    <h2>Buscar Tipos de Produto</h2>
+    <form [formGroup]="filtroForm" (ngSubmit)="buscarStatus()">
+      <input nz-input type="number" placeholder="Número" formControlName="id" />
+      <input nz-input placeholder="Nome" formControlName="nome" />
+      <input nz-input placeholder="Descrição" formControlName="descricao" />
+      <input nz-input placeholder="Margem de Lucro" formControlName="margemLucro" />
+      <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
+        <i nz-icon nzType="search"></i> Buscar
+      </button>
+    </form>
+  </div>
+  <h2>Lista de Tipos de Produto</h2>
+  <nz-table
+    #tabelaPrincipal
+    class="tabela-padrao"
+    [nzData]="tipos"
+    [nzPageSize]="itensPorPagina"
+    [nzFrontPagination]="false"
+    [nzPageIndex]="paginaAtual"
+    [nzLoading]="carregando"
+    [nzBordered]="true"
+    [nzTotal]="totalElementos"
+    (nzPageIndexChange)="aoMudarPagina($event)"
+  >
+    <thead>
+      <tr>
+        <th scope="col">Número</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Margem de Lucro</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipo of tipos">
+        <td>{{ tipo.id }}</td>
+        <td>{{ tipo.nome }}</td>
+        <td>{{ tipo.descricao }}</td>
+        <td>{{ tipo.margemLucro }}</td>
+        <td>
+          <a [routerLink]="['/tipos-produto/update', tipo.id]">
+            <i
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              title="Atualizar Status"
+            ></i>
+          </a>
+          <a [routerLink]="['/tipos-produto/delete', tipo.id]">
+            <i
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              title="Deletar Tipo"
+            ></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

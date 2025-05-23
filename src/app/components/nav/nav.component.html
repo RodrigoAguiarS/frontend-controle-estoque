@@ -1,0 +1,94 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Controle de Estoque</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <!-- HOME -->
+      <li nz-menu-item [nzMatchRouter]="true" routerLink="/home">
+        <i nz-icon nzType="dashboard"></i>
+        <span>Home</span>
+      </li>
+
+      <!-- PRODUTO -->
+      <li nz-submenu nzTitle="Produto" nzIcon="shopping-cart">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/produtos/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/produtos/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
+      <!-- VENDA -->
+      <li nz-submenu nzTitle="Venda" nzIcon="shopping">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/vendas/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/vendas/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
+      <!-- FORMA DE PAGAMENTO -->
+      <li nz-submenu nzTitle="Forma de Pagamento" nzIcon="credit-card">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/pagamentos/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/pagamentos/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
+      <!-- TIPO DE PRODUTO -->
+      <li nz-submenu nzTitle="Tipo de Produto" nzIcon="tags">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/tipos-produto/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/tipos-produto/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
