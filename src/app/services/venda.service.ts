@@ -5,11 +5,10 @@ import { Venda } from '../model/Venda';
 import { API_CONFIG } from '../../config/api.config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VendaService {
-
-    constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   create(venda: Venda): Observable<Venda> {
     return this.http.post<Venda>(`${API_CONFIG.baseUrl}/vendas`, venda);
@@ -24,13 +23,13 @@ export class VendaService {
     size: number;
     sort?: string;
     id?: number;
-    formaPagamento?: number;
+    formaDePagamentoId?: number;
     valorMinimo?: number;
     valorMaximo?: number;
     dataInicio?: string;
     dataFim?: string;
     ativo?: boolean;
-  }): Observable<{ content: Venda[]; totalElements: number }> {
+  }): Observable<{ content: Venda[]; page: { totalElements: number } }> {
     let url = `${API_CONFIG.baseUrl}/vendas/buscar?page=${params.page}&size=${params.size}`;
 
     if (params.sort) {
@@ -41,8 +40,8 @@ export class VendaService {
       url += `&id=${params.id}`;
     }
 
-    if (params.formaPagamento) {
-      url += `&formaPagamento=${params.formaPagamento}`;
+    if (params.formaDePagamentoId) {
+      url += `&formaDePagamentoId=${params.formaDePagamentoId}`;
     }
 
     if (params.valorMinimo) {
@@ -61,21 +60,25 @@ export class VendaService {
       url += `&dataFim=${encodeURIComponent(params.dataFim)}`;
     }
 
-    return this.http.get<{ content: Venda[]; totalElements: number }>(url);
+    return this.http.get<{ content: Venda[]; page: { totalElements: number } }>(
+      url
+    );
   }
 
   getVendasCliente(params: {
     page: number;
     size: number;
     sort?: string;
-  }): Observable<{ content: Venda[]; totalElements: number }> {
+  }): Observable<{ content: Venda[]; page: { totalElements: number } }> {
     let url = `${API_CONFIG.baseUrl}/vendas/meus-pedidos?page=${params.page}&size=${params.size}`;
 
     if (params.sort) {
       url += `&sort=${encodeURIComponent(params.sort)}`;
     }
 
-    return this.http.get<{ content: Venda[]; totalElements: number }>(url);
+    return this.http.get<{ content: Venda[]; page: { totalElements: number } }>(
+      url
+    );
   }
 
   atualizarStatus(

@@ -1,4 +1,4 @@
-/* Garante que o HTML e o body não causem overflow */
+/* Reset básico para evitar overflow e inconsistências */
 html, body {
   margin: 0;
   padding: 0;
@@ -8,7 +8,7 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
-/* Container principal com largura máxima */
+/* Container principal centralizado */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -18,12 +18,12 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Estilo do alerta */
+/* Alerta */
 nz-alert {
   margin-bottom: 20px;
 }
 
-/* Estilo do container de busca */
+/* Seção de busca */
 .search-container {
   margin-bottom: 20px;
 }
@@ -32,7 +32,7 @@ nz-alert {
   margin-bottom: 10px;
 }
 
-/* Formulário de busca responsivo */
+/* Formulário de busca responsivo e organizado */
 .search-container form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -40,24 +40,30 @@ nz-alert {
   align-items: end;
 }
 
-/* Botão de busca */
+.search-container form input,
+.search-container form nz-select,
+.search-container form nz-date-picker {
+  width: 100%;
+}
+
+/* Botão de busca ocupa largura total da célula */
 .search-container form button {
   width: 100%;
 }
 
-/* Títulos */
+/* Títulos da página */
 h2 {
   margin-top: 30px;
   font-size: 1.5rem;
 }
 
-/* Tabela de produtos */
+/* Tabela com ajuste de overflow horizontal se necessário */
 nz-table {
   width: 100%;
-  overflow-x: auto; /* Caso haja muitas colunas */
+  overflow-x: auto;
 }
 
-/* Ajuste do texto da tabela */
+/* Ajuste das células da tabela */
 nz-table th,
 nz-table td {
   text-align: center;
@@ -66,42 +72,19 @@ nz-table td {
   padding: 10px;
 }
 
-/* Modal de detalhes */
-nz-modal .modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Ícones nas ações */
+nz-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-/* Galeria de imagens no modal */
-.image-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+nz-icon:hover {
+  transform: scale(1.2);
 }
 
-.product-image {
-  width: 120px;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  object-fit: cover;
-}
-
-/* Rodapé do modal */
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Responsividade extra para telas pequenas */
+/* Responsividade extra */
 @media (max-width: 600px) {
   .search-container form {
     grid-template-columns: 1fr;
-  }
-
-  .product-image {
-    width: 100%;
-    max-width: 100px;
   }
 }

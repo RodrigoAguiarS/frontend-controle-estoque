@@ -224,7 +224,7 @@ export class VendaCreateComponent {
         itens: this.itensCarrinho,
         valorTotal: this.valorTotal,
         criadoEm: new Date().toISOString(),
-        formaPagamento: this.pdvForm.value.pagamento.id,
+        formaDePagamento: this.pdvForm.value.pagamento.id,
       };
 
       this.pedidoService.create(pedido).subscribe({
