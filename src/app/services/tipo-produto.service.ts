@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, mergeMap, Observable, of, toArray } from 'rxjs';
-import { TipoProduto } from '../components/model/TipoProduto';
+import { TipoProduto } from '../model/TipoProduto';
 import { API_CONFIG } from '../../config/api.config';
 
 @Injectable({

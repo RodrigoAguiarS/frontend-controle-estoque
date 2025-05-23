@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Produto } from '../components/model/Produto';
-import { Observable } from 'rxjs';
+import { Produto } from '../model/Produto';
+import { map, Observable } from 'rxjs';
 import { API_CONFIG } from '../../config/api.config';
 
 @Injectable({
@@ -12,6 +12,13 @@ export class ProdutoService {
 
   findById(id: any): Observable<Produto> {
     return this.http.get<Produto>(`${API_CONFIG.baseUrl}/produtos/${id}`);
+  }
+
+  findAll(): Observable<Produto[]> {
+    return this.buscarPaginado({
+      page: 0,
+      size: 1000,
+    }).pipe(map((response) => response.content));
   }
 
   create(produto: Produto): Observable<Produto> {
@@ -62,7 +69,10 @@ export class ProdutoService {
       url += `&tipoProdutoId=${encodeURIComponent(params.tipoProdutoId)}`;
     }
 
-    return this.http.get<{ content: Produto[]; page: { totalElements: number } }>(url);
+    return this.http.get<{
+      content: Produto[];
+      page: { totalElements: number };
+    }>(url);
   }
 
   removerArquivo(arquivoUrl: string): Observable<void> {

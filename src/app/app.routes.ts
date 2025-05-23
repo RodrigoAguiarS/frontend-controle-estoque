@@ -26,6 +26,20 @@ export const routes: Routes = [
             (m) => m.produtoRoutes
           ),
       },
+            {
+        path: 'vendas',
+        loadChildren: () =>
+          import('./components/venda/venda.routes').then(
+            (m) => m.vendasRoutes
+          ),
+      },
+      {
+        path: 'pagamentos',
+        loadChildren: () =>
+          import(
+            './components/formadepagamento/forma-de-pagamento.routes'
+          ).then((m) => m.formaPagamentoRoutes),
+      },
       {
         path: 'result',
         component: ResultComponent,
