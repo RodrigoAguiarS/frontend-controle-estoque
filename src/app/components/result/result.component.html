@@ -1,0 +1,11 @@
+<div class="container-resultado">
+  <div class="resultado">
+    <nz-result [nzStatus]="tipoResultado" [nzTitle]="tituloResultado" [nzSubTitle]="mensagemResultado">
+      <div nz-result-extra class="resultado-botoes">
+        <button nz-button nzType="primary" (click)="navegarParaCriar()">Novo</button>
+        <button nz-button nzType="default" (click)="navegarParaListagem()">Listar</button>
+        <button nz-button nzType="default" (click)="navegarParaHome()">Home</button>
+      </div>
+    </nz-result>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="container-wrapper">
+  <nz-spin [nzSpinning]="carregando">
+    <div class="container">
+      <nz-card [nzBordered]="false" class="form-container">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="tipoProdutoForm"
+          (ngSubmit)="delete()"
+          class="status-form"
+        >
+          <!-- Cabeçalho -->
+          <h2 class="form-title">Cadastrar Tipo de Produto</h2>
+
+          <!-- Informações da Status -->
+          <h3 class="form-section-title">Informações do Tipo</h3>
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="nome"
+                  >Nome</nz-form-label
+                >
+                <nz-form-control>
+                  <input
+                    id="nome"
+                    nz-input
+                    maxlength="50"
+                    formControlName="nome"
+                    placeholder="Ex. Em andamento"
+                    required
+                  />
+                  <div class="char-counter">
+                    {{ tipoProdutoForm.get("nome")?.value.length || 0 }}/50
+                    caracteres
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="descricao"
+                  >Descrição</nz-form-label
+                >
+                <nz-form-control>
+                  <textarea
+                    id="descricao"
+                    nz-input
+                    maxlength="255"
+                    formControlName="descricao"
+                    placeholder="Descrição da status"
+                    required
+                  ></textarea>
+                  <div class="char-counter">
+                    {{ tipoProdutoForm.get("descricao")?.value.length || 0 }}/255
+                    caracteres
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="margemPorcentagem"
+                  >Margem de Porcentagem</nz-form-label
+                >
+                <nz-form-control>
+                  <input
+                    id="margemLucro"
+                    nz-input
+                    maxlength="3"
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    max="100"
+                    formControlName="margemLucro"
+                    placeholder="Ex. 10.5"
+                    required
+                  />
+                  <div class="char-counter">
+                    Valor entre 0.01 e 100
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <!-- Ações -->
+          <div class="form-actions">
+            <button
+              type="button"
+              nz-button
+              nzType="default"
+              (click)="cancelar()"
+            >
+              Cancelar
+            </button>
+            <button
+              [nzLoading]="carregando"
+              type="submit"
+              nz-button
+              nzType="primary"
+            >
+              Apagar
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>
+

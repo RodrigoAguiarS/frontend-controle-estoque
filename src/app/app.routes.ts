@@ -1,6 +1,7 @@
-import { Routes } from "@angular/router";
-import { HomeComponent } from "./components/home/home.component";
-import { NavComponent } from "./components/nav/nav.component";
+import { Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { NavComponent } from './components/nav/nav.component';
+import { ResultComponent } from './components/result/result.component';
 
 export const routes: Routes = [
   // Rotas sem menu (exemplo: login)
@@ -16,10 +17,15 @@ export const routes: Routes = [
       {
         path: 'tipos-produto',
         loadChildren: () =>
-          import('./components/tipo/tipo-produto.routes').then(m => m.tipoProdutoRoutes)
+          import('./components/tipo/tipo-produto.routes').then(
+            (m) => m.tipoProdutoRoutes
+          ),
       },
-      // Outras rotas internas...
-    ]
+      {
+        path: 'result',
+        component: ResultComponent,
+      },
+    ],
   },
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: 'home' },
 ];
