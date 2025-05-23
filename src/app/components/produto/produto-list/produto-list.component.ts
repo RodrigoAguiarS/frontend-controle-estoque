@@ -62,7 +62,7 @@ export class ProdutoListComponent {
   tiposProduto: TipoProduto[] = [];
   carregando = false;
   totalElementos = 0;
-  itensPorPagina = 3;
+  itensPorPagina = 10;
   paginaAtual = 1;
   modalVisible = false;
   descricaoCompleta = '';
