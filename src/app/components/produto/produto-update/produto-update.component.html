@@ -1,0 +1,150 @@
+<div class="container-wrapper">
+  <nz-spin [nzSpinning]="carregando">
+    <div class="container">
+      <nz-card [nzBordered]="false" class="form-container">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="produtoForm"
+          (ngSubmit)="update()"
+          class="produto-form"
+        >
+          <h2 class="form-title">Cadastrar Produto</h2>
+          <h3 class="form-section-title">Informações do Produto</h3>
+
+          <div class="form-row">
+            <!-- Descrição -->
+            <nz-form-item class="form-item-full">
+              <nz-form-label [nzRequired]="true" nzFor="descricao"
+                >Descrição</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="descricao"
+                  nz-input
+                  maxlength="100"
+                  formControlName="descricao"
+                  placeholder="Digite a descrição do produto"
+                  required
+                />
+                <div class="char-counter">
+                  {{ produtoForm.get("descricao")?.value?.length || 0 }}/100
+                  caracteres
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <!-- Tipo de Produto -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="tipoProdutoId"
+                >Tipo de Produto</nz-form-label
+              >
+              <nz-form-control>
+                <nz-select
+                  id="tipoProdutoId"
+                  formControlName="tipoProdutoId"
+                  nzPlaceHolder="Selecione o tipo de produto"
+                  required
+                >
+                  <nz-option
+                    *ngFor="let tipo of tiposProduto"
+                    [nzValue]="tipo.id"
+                    [nzLabel]="tipo.nome"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- Valor Fornecedor -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="valorFornecedor"
+                >Valor Fornecedor</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="valorFornecedor"
+                  nz-input
+                  currencyMask
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                  type="text"
+                  formControlName="valorFornecedor"
+                  placeholder="Digite o valor do fornecedor"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- Quantidade Estoque -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="quantidadeEstoque"
+                >Qtd. Estoque</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="quantidadeEstoque"
+                  nz-input
+                  type="number"
+                  min="0"
+                  formControlName="quantidadeEstoque"
+                  placeholder="Digite a quantidade"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <!-- Upload de Arquivos -->
+            <nz-form-item class="form-item-full">
+              <nz-form-label>Anexar Arquivo</nz-form-label>
+              <nz-form-control>
+                <nz-upload
+                  [nzAction]="uploadUrl"
+                  [nzName]="'file'"
+                  [nzShowUploadList]="true"
+                  (nzChange)="aoMudarUpload($event)"
+                  [(nzFileList)]="fileList"
+                  [nzRemove]="removerArquivo.bind(this)"
+                  nzListType="picture"
+                  [nzAccept]="'image/png,image/jpeg,image/jpg,image/gif'"
+                >
+                  <button type="button" nz-button>
+                    <i nz-icon nzType="upload"></i> Clique para fazer upload
+                  </button>
+                </nz-upload>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Ações -->
+          <div class="form-actions">
+            <button
+              type="button"
+              nz-button
+              nzType="default"
+              (click)="cancelar()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              nz-button
+              nzType="primary"
+              [disabled]="!produtoForm.valid || carregando"
+              [nzLoading]="carregando"
+            >
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>
