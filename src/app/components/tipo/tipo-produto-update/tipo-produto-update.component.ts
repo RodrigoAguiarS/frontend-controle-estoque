@@ -5,9 +5,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { TipoProdutoService } from '../../../services/tipo-produto.service';
-import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -16,9 +16,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 
-
 @Component({
-  selector: 'app-tipo-produto-create',
+  selector: 'app-tipo-produto-update',
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -30,33 +29,56 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzCheckboxModule,
     NzCardModule,
   ],
-  templateUrl: './tipo-produto-create.component.html',
-  styleUrl: './tipo-produto-create.component.css',
+  templateUrl: './tipo-produto-update.component.html',
+  styleUrl: './tipo-produto-update.component.css',
 })
-export class TipoProdutoCreateComponent {
+export class TipoProdutoUpdateComponent {
   tiposForm!: FormGroup;
+  id!: number;
   carregando = false;
 
   constructor(
     private readonly message: NzMessageService,
-    private readonly tipoService: TipoProdutoService,
+    private readonly tipoProdutoService: TipoProdutoService,
     private readonly formBuilder: FormBuilder,
+    private readonly route: ActivatedRoute,
     private readonly router: Router
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.initForm();
   }
 
-  criar(): void {
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+    this.initForm();
+    this.carregarStatus();
+  }
+
+  private carregarStatus(): void {
     this.carregando = true;
-    this.tipoService.create(this.tiposForm.value).subscribe({
+    this.tipoProdutoService.findById(this.id).subscribe({
+      next: (tipos) => {
+        this.tiposForm.patchValue(tipos);
+      },
+      error: (ex) => {
+        this.message.error(ex.error.message);
+        this.carregando = false;
+      },
+      complete: () => {
+        this.carregando = false;
+      },
+    });
+  }
+
+  update(): void {
+    this.carregando = true;
+    this.tiposForm.value.id = this.id;
+    this.tipoProdutoService.update(this.tiposForm.value).subscribe({
       next: (resposta) => {
         this.router.navigate(['/result'], {
           queryParams: {
             type: 'success',
-            title: 'Tipo Produto - ' + resposta.nome,
-            message: 'O Tipo Produto foi criado com sucesso!',
+            title: 'Tipo de Produto - ' + resposta.nome,
+            message: 'O Tipo Produto foi atualizado com sucesso!',
             createRoute: '/tipos-produto/create',
             listRoute: '/tipos-produto/list',
           },
@@ -66,7 +88,6 @@ export class TipoProdutoCreateComponent {
         if (ex.error.errors) {
           ex.error.errors.forEach((element: ErrorEvent) => {
             this.message.error(element.message);
-            this.carregando = false;
           });
         } else {
           this.message.error(ex.error.message);
