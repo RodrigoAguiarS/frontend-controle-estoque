@@ -1,0 +1,74 @@
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.search-container h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+form input,
+form nz-select {
+  flex: 1;
+  min-width: 180px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #333;
+}
+
+nz-table {
+  width: 100%;
+}
+
+thead {
+  background: #f0f0f0;
+}
+
+td, th {
+  padding: 10px;
+  text-align: left;
+}
+
+td:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+a i {
+  font-size: 18px;
+  color: #1890ff;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+a i:hover {
+  color: #0056b3;
+}

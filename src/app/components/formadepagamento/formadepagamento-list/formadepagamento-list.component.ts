@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TipoProduto } from '../../../model/TipoProduto';
+import { FormaDePagamento } from '../../../model/FormaDePagamento';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormaDePagamentoService } from '../../../services/forma-de-pagamento.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { TipoProdutoService } from '../../../services/tipo-produto.service';
 import { AlertaService } from '../../../services/alerta.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,8 +16,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
 @Component({
-  selector: 'app-tipo-produto-list',
-   imports: [
+  selector: 'app-formadepagamento-list',
+     imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -31,12 +31,11 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzPopconfirmModule,
     NzModalModule,
   ],
-  templateUrl: './tipo-produto-list.component.html',
-  styleUrl: './tipo-produto-list.component.css'
+  templateUrl: './formadepagamento-list.component.html',
+  styleUrl: './formadepagamento-list.component.css',
 })
-export class TipoProdutoListComponent {
-
-  tipos: TipoProduto[] = [];
+export class FormadepagamentoListComponent {
+  formasDePagamento: FormaDePagamento[] = [];
   filtroForm!: FormGroup;
   carregando = false;
   totalElementos = 0;
@@ -47,7 +46,7 @@ export class TipoProdutoListComponent {
   nenhumResultadoEncontrado = false;
 
   constructor(
-    private readonly tipoService: TipoProdutoService,
+    private readonly pagamentoService: FormaDePagamentoService,
     private readonly formBuilder: FormBuilder,
     private readonly message: NzMessageService,
     public readonly alertaService: AlertaService
@@ -58,7 +57,7 @@ export class TipoProdutoListComponent {
       id: [''],
       nome: [''],
       descricao: [''],
-      margemLucro: [''],
+      porcentagemAcrescimo: [''],
     });
     this.alertaService.limparAlerta();
   }
@@ -73,13 +72,13 @@ export class TipoProdutoListComponent {
       descricao:
         this.filtroForm.get('descricao')?.value.trim().toLowerCase() ?? '',
       margemLucro:
-        this.filtroForm.get('margemLucro')?.value.trim().toLowerCase() ?? '',
+        this.filtroForm.get('porcentagemAcrescimo')?.value.trim().toLowerCase() ?? '',
     };
-    this.tipoService.buscarPaginado(params).subscribe({
+    this.pagamentoService.buscarPaginado(params).subscribe({
       next: (response) => {
-        this.tipos = response.content;
+        this.formasDePagamento = response.content;
         console.log(response);
-        this.nenhumResultadoEncontrado = this.tipos.length === 0;
+        this.nenhumResultadoEncontrado = this.formasDePagamento.length === 0;
         this.totalElementos = response.page.totalElements;
         this.carregando = false;
         if (this.nenhumResultadoEncontrado) {

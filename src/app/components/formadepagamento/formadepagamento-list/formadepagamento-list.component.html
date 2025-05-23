@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Tipos de Produto</h1>
+  <h1>Formas de Pagamento</h1>
 
   <nz-alert
     *ngIf="
@@ -14,22 +14,22 @@
   ></nz-alert>
 
   <div class="container-busca">
-    <h2>Buscar Tipos de Produto</h2>
+    <h2>Buscar Forma de Pagamento</h2>
     <form [formGroup]="filtroForm" (ngSubmit)="buscarStatus()">
       <input nz-input type="number" placeholder="Número" formControlName="id" />
       <input nz-input placeholder="Nome" formControlName="nome" />
       <input nz-input placeholder="Descrição" formControlName="descricao" />
-      <input nz-input placeholder="Margem de Lucro" formControlName="margemLucro" />
+      <input nz-input placeholder="Porcentagem Acrescimo" formControlName="porcentagemAcrescimo" />
       <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
         <i nz-icon nzType="search"></i> Buscar
       </button>
     </form>
   </div>
-  <h2>Lista de Tipos de Produto</h2>
+  <h2>Lista de Forma de Pagamento</h2>
   <nz-table
     #tabelaPrincipal
     class="tabela-padrao"
-    [nzData]="tipos"
+    [nzData]="formasDePagamento"
     [nzPageSize]="itensPorPagina"
     [nzFrontPagination]="false"
     [nzPageIndex]="paginaAtual"
@@ -43,31 +43,31 @@
         <th scope="col">Número</th>
         <th scope="col">Nome</th>
         <th scope="col">Descrição</th>
-        <th scope="col">Margem de Lucro</th>
+        <th scope="col">Porcentagem Acrescimo </th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tipo of tipos">
-        <td>{{ tipo.id }}</td>
-        <td>{{ tipo.nome }}</td>
-        <td>{{ tipo.descricao }}</td>
-        <td>{{ tipo.margemLucro }} %</td>
+      <tr *ngFor="let forma of formasDePagamento">
+        <td>{{ forma.id }}</td>
+        <td>{{ forma.nome }}</td>
+        <td>{{ forma.descricao }}</td>
+        <td>{{ forma.porcentagemAcrescimo }} %</td>
         <td>
-          <a [routerLink]="['/tipos-produto/update', tipo.id]">
+          <a [routerLink]="['/pagamentos/update', forma.id]">
             <i
               nz-icon
               nzType="edit"
               nzTheme="outline"
-              title="Atualizar Status"
+              title="Atualizar Forma de Pagamento"
             ></i>
           </a>
-          <a [routerLink]="['/tipos-produto/delete', tipo.id]">
+          <a [routerLink]="['/pagamentos/delete', forma.id]">
             <i
               nz-icon
               nzType="delete"
               nzTheme="outline"
-              title="Deletar Tipo"
+              title="Deletar Forma de Pagamento"
             ></i>
           </a>
         </td>
@@ -75,3 +75,4 @@
     </tbody>
   </nz-table>
 </div>
+

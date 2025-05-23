@@ -5,8 +5,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Produto } from '../../model/Produto';
-import { TipoProduto } from '../../model/TipoProduto';
+import { Produto } from '../../../model/Produto';
+import { TipoProduto } from '../../../model/TipoProduto';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProdutoService } from '../../../services/produto.service';
 import { AlertaService } from '../../../services/alerta.service';
