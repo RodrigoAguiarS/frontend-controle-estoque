@@ -7,6 +7,7 @@
 
 .app-layout {
   height: 100vh;
+  overflow-x: hidden; /* Previne rolagem horizontal */
 }
 
 .menu-sidebar {
@@ -36,6 +37,7 @@
   line-height: 64px;
   background: #001529;
   transition: all .3s;
+  white-space: nowrap; /* Evita quebra de texto */
 }
 
 .sidebar-logo img {
