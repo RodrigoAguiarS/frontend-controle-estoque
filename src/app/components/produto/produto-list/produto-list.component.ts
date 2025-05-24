@@ -100,9 +100,7 @@ export class ProdutoListComponent {
       id: [''],
       descricao: [''],
       valorFornecedor: [0],
-      valorVenda: [0],
       quantidadeEstoque: [null],
-      quantidadeMinima: [null],
       tipoProdutoId: [null],
       arquivosUrl: [[]],
     });

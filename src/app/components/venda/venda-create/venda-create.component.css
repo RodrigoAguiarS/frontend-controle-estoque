@@ -336,7 +336,6 @@
   }
 }
 
-/* Adicione ao componente para garantir a data */
 ::ng-deep {
   .ant-select-dropdown {
     z-index: 1050;

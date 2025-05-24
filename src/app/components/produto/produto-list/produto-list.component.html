@@ -39,13 +39,6 @@
       />
       <input
         nz-input
-        type="text"
-        [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-        placeholder="Valor de Venda"
-        formControlName="valorVenda"
-      />
-      <input
-        nz-input
         type="number"
         placeholder="Quantidade"
         formControlName="quantidadeEstoque"
@@ -120,66 +113,6 @@
     </tbody>
   </nz-table>
 
-  <div class="produtos-cards">
-    <nz-spin [nzSpinning]="carregando" nzTip="Carregando...">
-      <div
-        class="produto-card"
-        *ngFor="let produto of produtos"
-        (click)="abrirModalProduto(produto)"
-      >
-        <div class="card-header">
-          <span class="card-title">{{ produto.descricao }}</span>
-          <div class="card-actions">
-            <a
-              [routerLink]="['/produtos/update', produto.id]"
-              (click)="$event.stopPropagation()"
-            >
-              <i
-                nz-icon
-                nzType="edit"
-                nzTheme="outline"
-                title="Atualizar Produto"
-              ></i>
-            </a>
-            <a
-              [routerLink]="['/produtos/delete', produto.id]"
-              (click)="$event.stopPropagation()"
-            >
-              <i
-                nz-icon
-                nzType="delete"
-                nzTheme="outline"
-                title="Deletar Produto"
-              ></i>
-            </a>
-          </div>
-        </div>
-        <div class="card-body">
-          <p><strong>Código de Barras:</strong> {{ produto.id }}</p>
-          <p><strong>Descrição:</strong> {{ produto.descricao }}</p>
-          <p>
-            <strong>Valor do Forncedor:</strong>
-            {{ produto.valorFornecedor | currency : "BRL" }}
-          </p>
-          <p>
-            <strong>Valor de Venda:</strong>
-            {{ produto.valorVenda | currency : "BRL" }}
-          </p>
-          <p><strong>Quantidade:</strong> {{ produto.quantidadeEstoque }}</p>
-          <p><strong>Categoria:</strong> {{ produto.tipoProduto.nome }}</p>
-        </div>
-      </div>
-    </nz-spin>
-  </div>
-  <nz-pagination
-    class="nz-pagination"
-    [nzPageSize]="itensPorPagina"
-    [nzTotal]="totalElementos"
-    [(nzPageIndex)]="paginaAtual"
-    (nzPageIndexChange)="aoMudarPagina($event)"
-    [nzShowSizeChanger]="false"
-    [nzShowQuickJumper]="false"
-  ></nz-pagination>
   <!-- Modal para exibir os detalhes do produto -->
   <nz-modal
     [(nzVisible)]="modalVisible"

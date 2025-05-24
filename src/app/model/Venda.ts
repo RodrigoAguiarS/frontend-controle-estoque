@@ -4,7 +4,7 @@ import { ItemVenda } from "./ItemVenda";
 export interface Venda {
   id: number;
   criadoEm: string;
-  formaPagamento: FormaDePagamento;
+  formaDePagamento: FormaDePagamento;
   valorTotal?: number;
   observacao?: string;
   itens: ItemVenda[];

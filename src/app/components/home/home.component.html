@@ -1,1 +1,78 @@
+<nz-spin [nzSpinning]="carregando" nzTip="Carregando...">
+  <div class="chart-grid">
+    <app-chart
+      title="Produtos com Maior Faturamento"
+      [datasets]="revenueChartData"
+      [labels]="revenueChartLabels"
+      [type]="revenueChartType"
+      [legend]="revenueChartLegend"
+      [options]="revenueChartOptions"
+    >
+    </app-chart>
 
+    <app-chart
+      title="Estoque por Tipo de Produto"
+      [datasets]="stockChartData"
+      [labels]="stockChartLabels"
+      [type]="stockChartType"
+      [legend]="stockChartLegend"
+      [options]="stockChartOptions"
+    >
+    </app-chart>
+  </div>
+
+    <h2>Últimas Movimentações</h2>
+    <nz-spin [nzSpinning]="carregandoMovimentacoes">
+      <nz-list
+        class="movements-list"
+        [nzDataSource]="ultimasMovimentacoes"
+        [nzRenderItem]="movimentacaoTemplate"
+        [nzItemLayout]="'horizontal'"
+        [nzNoResult]="noDataTemplate"
+      >
+        <ng-template #movimentacaoTemplate let-item>
+          <nz-list-item
+            [ngClass]="{
+              entrada: item.tipo === 'ENTRADA',
+              saida: item.tipo === 'SAIDA'
+            }"
+          >
+            <nz-list-item-meta
+              [nzAvatar]="avatarTemplate"
+              [nzTitle]="titleTemplate"
+              [nzDescription]="descriptionTemplate"
+            >
+              <ng-template #avatarTemplate>
+                <nz-tag [nzColor]="item.tipo === 'ENTRADA' ? 'green' : 'red'">
+                  {{ item.tipo }}
+                </nz-tag>
+              </ng-template>
+
+              <ng-template #titleTemplate>
+                <div class="list-title">
+                  <span>{{ item.produto.descricao }}</span>
+                  <span class="quantity-badge"
+                    >Qtde: {{ item.quantidade }}</span
+                  >
+                </div>
+              </ng-template>
+
+              <ng-template #descriptionTemplate>
+                <span class="movement-date">{{
+                  item.criadoEm | date : "dd/MM/yyyy HH:mm"
+                }}</span>
+              </ng-template>
+            </nz-list-item-meta>
+          </nz-list-item>
+        </ng-template>
+
+        <ng-template #noDataTemplate>
+          <div class="empty-data">
+            <nz-empty
+              [nzNotFoundContent]="'Nenhuma movimentação encontrada'"
+            ></nz-empty>
+          </div>
+        </ng-template>
+      </nz-list>
+    </nz-spin>
+</nz-spin>

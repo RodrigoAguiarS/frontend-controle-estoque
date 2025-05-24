@@ -1,0 +1,101 @@
+<div class="container">
+  <nz-alert
+    *ngIf="
+      (alertaService.tipoAlerta$ | async) &&
+      (alertaService.mensagemAlerta$ | async)
+    "
+    [nzType]="(alertaService.tipoAlerta$ | async) || 'info'"
+    [nzMessage]="alertaService.mensagemAlerta$ | async"
+    nzShowIcon
+    nzCloseable
+    (nzOnClose)="alertaService.limparAlerta()"
+  ></nz-alert>
+
+  <div class="search-container">
+    <h2>Buscar Vendas</h2>
+    <form [formGroup]="filtroForm" (ngSubmit)="buscarVenda()">
+      <input nz-input placeholder="Código" formControlName="id" type="number" />
+
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Forma de Pagamento"
+        formControlName="formaDePagamentoId"
+      >
+        <nz-option
+          *ngFor="let pagamento of pagamentos"
+          [nzValue]="pagamento.id"
+          [nzLabel]="pagamento.nome"
+        ></nz-option>
+      </nz-select>
+      <input
+        nz-input
+        type="text"
+        [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+        formControlName="valorMinimo"
+        placeholder="Valor Mínimo"
+      />
+      <input
+        nz-input
+        type="text"
+        [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+        formControlName="valorMaximo"
+        placeholder="Valor Máximo"
+      />
+      <nz-date-picker
+        nzFormat="dd/MM/yyyy"
+        formControlName="dataInicio"
+        nzPlaceHolder="Data Início"
+      ></nz-date-picker>
+      <nz-date-picker
+        nzFormat="dd/MM/yyyy"
+        formControlName="dataFim"
+        nzPlaceHolder="Data Fim"
+      ></nz-date-picker>
+      <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
+        <i nz-icon nzType="search"></i> Buscar
+      </button>
+    </form>
+  </div>
+
+  <h2 *ngIf="totalElementos != 0">Lista de Vendas</h2>
+  <nz-table
+    #basicTable
+    [nzData]="vendas"
+    [nzPageSize]="itensPorPagina"
+    [nzFrontPagination]="false"
+    [nzPageIndex]="paginaAtual"
+    [nzLoading]="carregando"
+    [nzBordered]="true"
+    [nzTotal]="totalElementos"
+    (nzPageIndexChange)="aoMudarPagina($event)"
+  >
+    <thead>
+      <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Data Venda</th>
+        <th scope="col">Valor Total</th>
+        <th scope="col">Forma Pagamento</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venda of vendas">
+        <td>{{ venda.id }}</td>
+        <td>{{ venda.criadoEm | date : "dd/MM/yyyy HH:mm" }}</td>
+        <td>{{ venda.valorTotal | currency : "BRL" }}</td>
+        <td *ngIf="venda.formaDePagamento">{{ venda.formaDePagamento.nome }}</td>
+        <td>
+          <a (click)="gerarCupomVenda(venda.id)">
+            <i
+              nz-icon
+              nzType="printer"
+              nzTheme="outline"
+              title="Imprimir cupom de venda"
+            ></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

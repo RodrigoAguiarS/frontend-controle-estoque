@@ -14,22 +14,36 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-formadepagamento-list',
-     imports: [
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     NzTableModule,
     NzButtonModule,
     NzIconModule,
+    NzSpinModule,
     NzSelectModule,
     NzPaginationModule,
     RouterModule,
-    NzAlertModule,
+    NzTagModule,
     NzPopconfirmModule,
+    NzSkeletonModule,
     NzModalModule,
+    NzAlertModule,
+    NzInputNumberModule,
+    NzDatePickerModule,
+    NzFormModule,
+    NzInputModule,
   ],
   templateUrl: './formadepagamento-list.component.html',
   styleUrl: './formadepagamento-list.component.css',

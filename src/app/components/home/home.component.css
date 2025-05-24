@@ -1,0 +1,120 @@
+/* Variáveis para cores e valores reutilizáveis */
+:root {
+  --bg-color: #f9f9f9;
+  --border-color: #ddd;
+  --text-color: #333;
+  --text-light: #666;
+  --entrada-color: #52c41a;
+  --saida-color: #ff4d4f;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --padding-container: 15px;
+}
+
+/* Layout da grade e containers */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Estilos compartilhados para containers */
+.chart-container, .recent-movements-container {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.chart-container {
+  padding: 10px;
+  text-align: center;
+}
+
+.recent-movements-container {
+  margin: 0 20px 20px;
+  padding: var(--padding-container);
+}
+
+/* Títulos */
+h2, .chart-container h3 {
+  text-align: center;
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+/* Lista de movimentações */
+.movements-list {
+  height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d1d1d1 var(--bg-color);
+}
+
+.movements-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.movements-list::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border-radius: 4px;
+}
+
+.movements-list::-webkit-scrollbar-thumb {
+  background-color: #d1d1d1;
+  border-radius: 4px;
+}
+
+/* Conteúdo dos itens */
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.quantity-badge {
+  background-color: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.movement-date {
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+/* Classes de tipo */
+.entrada {
+  border-left: 3px solid var(--entrada-color);
+  background-color: rgba(82, 196, 26, 0.05);
+}
+
+.saida {
+  border-left: 3px solid var(--saida-color);
+  background-color: rgba(255, 77, 79, 0.05);
+}
+
+/* Estado vazio */
+.empty-data {
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .chart-container h3,
+  .recent-movements-container h2 {
+    font-size: 16px;
+  }
+
+  .list-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

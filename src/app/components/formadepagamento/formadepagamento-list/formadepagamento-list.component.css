@@ -1,74 +1,99 @@
+/* Reset e base */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container principal */
 .container {
+  width: 100%;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
-.search-container {
+/* Alertas */
+nz-alert {
   margin-bottom: 20px;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
 }
 
-.search-container h2 {
+/* Seção de busca */
+.container-busca, .search-container {
+  margin-bottom: 20px;
+}
+
+.container-busca h2, .search-container h2 {
   margin-bottom: 10px;
-  font-size: 18px;
 }
 
-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+/* Formulários de busca: grid responsivo */
+.container-busca form,
+.search-container form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  align-items: end;
 }
 
-form input,
-form nz-select {
-  flex: 1;
-  min-width: 180px;
-}
-
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #333;
-}
-
-nz-table {
+.container-busca form input,
+.search-container form input,
+.container-busca form nz-select,
+.search-container form nz-select,
+.container-busca form nz-date-picker,
+.search-container form nz-date-picker {
   width: 100%;
 }
 
-thead {
-  background: #f0f0f0;
+/* Botão ocupa largura total na célula */
+.container-busca form button,
+.search-container form button {
+  width: 100%;
 }
 
-td, th {
+/* Títulos */
+h1 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 30px;
+  font-size: 1.5rem;
+}
+
+/* Tabelas */
+nz-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+nz-table th,
+nz-table td {
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
   padding: 10px;
-  text-align: left;
 }
 
-td:last-child {
-  display: flex;
-  gap: 10px;
-}
-
-a i {
-  font-size: 18px;
-  color: #1890ff;
+/* Ícones */
+nz-icon {
   cursor: pointer;
-  transition: color 0.3s;
+  transition: transform 0.2s ease;
 }
 
-a i:hover {
-  color: #0056b3;
+nz-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+  .container-busca form,
+  .search-container form {
+    grid-template-columns: 1fr;
+  }
 }
