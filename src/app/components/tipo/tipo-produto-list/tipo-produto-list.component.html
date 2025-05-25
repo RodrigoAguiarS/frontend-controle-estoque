@@ -13,7 +13,7 @@
 
   <div class="container-busca">
     <h2>Buscar Tipos de Produto</h2>
-    <form [formGroup]="filtroForm" (ngSubmit)="buscarStatus()">
+    <form [formGroup]="filtroForm" (ngSubmit)="buscarTiposProduto()">
       <input nz-input type="number" placeholder="Número" formControlName="id" />
       <input nz-input placeholder="Nome" formControlName="nome" />
       <input nz-input placeholder="Descrição" formControlName="descricao" />
