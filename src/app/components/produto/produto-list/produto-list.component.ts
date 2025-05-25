@@ -93,6 +93,7 @@ export class ProdutoListComponent {
     this.initForm();
     this.carregarUsuarios();
     this.alertaService.limparAlerta();
+    this.buscarProduto();
   }
 
   private initForm(): void {
@@ -139,10 +140,7 @@ export class ProdutoListComponent {
             'Nenhum resultado encontrado.'
           );
         } else {
-          this.alertaService.mostrarAlerta(
-            'success',
-            'Produtos carregados com sucesso.'
-          );
+          this.alertaService.limparAlerta();
         }
       },
       error: (ex) => {
