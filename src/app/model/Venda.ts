@@ -8,4 +8,5 @@ export interface Venda {
   valorTotal?: number;
   observacao?: string;
   itens: ItemVenda[];
+  ativo: boolean;
 }

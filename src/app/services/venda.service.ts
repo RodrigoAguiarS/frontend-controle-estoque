@@ -81,14 +81,9 @@ export class VendaService {
     );
   }
 
-  atualizarStatus(
-    vendaId: number,
-    statusId: number,
-    tipoVenda: string
-  ): Observable<Venda> {
-    return this.http.put<Venda>(
-      `${API_CONFIG.baseUrl}/vendas/${vendaId}/status/${statusId}?tipoVenda=${tipoVenda}`,
-      {}
+  cancelarVenda(idVenda: number): Observable<void> {
+    return this.http.delete<void>(
+      `${API_CONFIG.baseUrl}/vendas/cancelar/${idVenda}`
     );
   }
 

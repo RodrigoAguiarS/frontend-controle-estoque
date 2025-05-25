@@ -76,6 +76,7 @@
         <th scope="col">Data Venda</th>
         <th scope="col">Valor Total</th>
         <th scope="col">Forma Pagamento</th>
+        <th scope="col">Status</th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
@@ -84,7 +85,14 @@
         <td>{{ venda.id }}</td>
         <td>{{ venda.criadoEm | date : "dd/MM/yyyy HH:mm" }}</td>
         <td>{{ venda.valorTotal | currency : "BRL" }}</td>
-        <td *ngIf="venda.formaDePagamento">{{ venda.formaDePagamento.nome }}</td>
+        <td *ngIf="venda.formaDePagamento">
+          {{ venda.formaDePagamento.nome }}
+        </td>
+        <td>
+          <nz-tag [nzColor]="venda.ativo ? 'green' : 'red'">
+            {{ venda.ativo ? "Pago" : "Estornado" }}
+          </nz-tag>
+        </td>
         <td>
           <a (click)="gerarCupomVenda(venda.id)">
             <i
@@ -97,9 +105,17 @@
           <a (click)="abrirModalVenda(venda)">
             <i
               nz-icon
-              nzType="sync"
+              nzType="file"
               nzTheme="outline"
-              title="Alterar status"
+              title="Abrir Detalhes da venda"
+            ></i>
+          </a>
+          <a *ngIf="venda.ativo" (click)="cancelarVenda(venda.id)">
+            <i
+              nz-icon
+              nzType="close"
+              nzTheme="outline"
+              title="Cancelar venda"
             ></i>
           </a>
         </td>

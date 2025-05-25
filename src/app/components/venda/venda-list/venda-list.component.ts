@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { VendaService } from '../../../services/venda.service';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { FormaDePagamentoService } from '../../../services/forma-de-pagamento.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AlertaService } from '../../../services/alerta.service';
@@ -27,6 +27,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { VendaModalComponent } from '../venda-modal/venda-modal.component';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-venda-list',
@@ -48,6 +49,7 @@ import { VendaModalComponent } from '../venda-modal/venda-modal.component';
     NzFormModule,
     NzInputModule,
     NzAlertModule,
+    NzTagModule,
   ],
   templateUrl: './venda-list.component.html',
   styleUrl: './venda-list.component.css',
@@ -61,6 +63,7 @@ export class VendaListComponent {
   paginaAtual = 1;
   filtroForm: FormGroup;
   nenhumResultadoEncontrado = false;
+  confirmModal?: NzModalRef;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -223,6 +226,34 @@ export class VendaListComponent {
         console.error('Erro ao carregar detalhes da venda:', error);
         this.message.error('Não foi possível carregar os detalhes da venda.');
         this.carregando = false;
+      },
+    });
+  }
+
+  cancelarVenda(idVenda: number): void {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Confirmar cancelamento',
+      nzContent:
+        'Tem certeza que deseja cancelar esta venda? Esta ação não pode ser desfeita.',
+      nzOkText: 'Sim, cancelar venda',
+      nzCancelText: 'Não',
+      nzOnOk: () => {
+        this.carregando = true;
+        this.vendaService.cancelarVenda(idVenda).subscribe({
+          next: () => {
+            this.message.success('Venda cancelada com sucesso!');
+            this.findAllVendas();
+          },
+          error: (error) => {
+            console.error('Erro ao cancelar venda:', error);
+            this.message.error(
+              'Não foi possível cancelar a venda. Tente novamente mais tarde.'
+            );
+          },
+          complete: () => {
+            this.carregando = false;
+          },
+        });
       },
     });
   }

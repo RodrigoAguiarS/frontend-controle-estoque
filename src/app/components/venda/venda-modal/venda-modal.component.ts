@@ -18,10 +18,23 @@ export class VendaModalComponent {
     if (!this.venda?.itens?.length) {
       return 0;
     }
-
     return this.venda.itens.reduce(
       (total, item) => total + item.quantidade * item.produto.valorVenda,
       0
     );
+  }
+
+  getTagColor(): string {
+    if (this.venda === null || this.venda === undefined) {
+      return 'default';
+    }
+    return this.venda.ativo ? 'green' : 'red';
+  }
+
+  getStatusLabel(): string {
+    if (this.venda === null || this.venda === undefined) {
+      return 'Status Desconhecido';
+    }
+    return this.venda.ativo ? 'Pago' : 'Estornado';
   }
 }

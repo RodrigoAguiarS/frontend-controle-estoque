@@ -238,6 +238,7 @@ export class VendaCreateComponent {
         valorTotal: this.valorTotal,
         criadoEm: new Date().toISOString(),
         formaDePagamento: this.pdvForm.value.pagamento.id,
+        ativo: true,
       };
 
       this.pedidoService.create(pedido).subscribe({

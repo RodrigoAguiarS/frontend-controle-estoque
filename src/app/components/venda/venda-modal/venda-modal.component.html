@@ -20,6 +20,10 @@
             venda?.criadoEm | date : "dd/MM/yyyy HH:mm"
           }}</span>
         </div>
+        <div class="item-informacao status-tag">
+          <span class="rotulo">Status:</span>
+          <nz-tag [nzColor]="getTagColor()">{{ getStatusLabel() }}</nz-tag>
+        </div>
       </div>
     </div>
 
