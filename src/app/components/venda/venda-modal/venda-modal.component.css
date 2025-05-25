@@ -1,0 +1,218 @@
+/* venda-detalhes.component.css */
+.modal-venda {
+  --cor-primaria: #2d3748;
+  --cor-destaque: #4a5568;
+  --borda: #e2e8f0;
+  --fundo-claro: #f7fafc;
+  --texto-secundario: #718096;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.container-modal {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem;
+  overflow: hidden;
+}
+
+.cabecalho-modal {
+  padding: 1.5rem;
+  background: var(--fundo-claro);
+  border-bottom: 1px solid var(--borda);
+}
+
+.conteudo-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.titulo-modal {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin: 0;
+}
+
+.botao-fechar {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--texto-secundario);
+  transition: color 0.2s;
+}
+
+.botao-fechar:hover {
+  color: var(--cor-destaque);
+}
+
+.informacoes-venda {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.item-informacao {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.rotulo {
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+}
+
+.valor {
+  font-weight: 500;
+  color: var(--cor-primaria);
+}
+
+.conteudo-modal {
+  padding: 1.5rem;
+}
+
+.grade-informacoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cartao-informacao {
+  background: var(--fundo-claro);
+  border: 1px solid var(--borda);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.titulo-informacao {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+  margin-bottom: 0.25rem;
+}
+
+.dado-informacao {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--cor-primaria);
+  margin: 0;
+}
+
+.secao-totais {
+  border-top: 1px solid var(--borda);
+  padding: 1.5rem 0;
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.item-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.rotulo-total {
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+  margin-bottom: 0.25rem;
+}
+
+.valor-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+}
+
+.total-final .valor-total {
+  font-size: 1.3rem;
+  color: var(--cor-destaque);
+}
+
+.secao-itens {
+  margin-top: 2rem;
+}
+
+.titulo-secao {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.container-tabela {
+  overflow-x: auto;
+  border: 1px solid var(--borda);
+  border-radius: 0.5rem;
+}
+
+.tabela-itens {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.tabela-itens th {
+  background: var(--fundo-claro);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  border-bottom: 2px solid var(--borda);
+}
+
+.tabela-itens td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--borda);
+  font-size: 0.875rem;
+}
+
+.tabela-itens tr:last-child td {
+  border-bottom: none;
+}
+
+.linha-vazia td {
+  text-align: center;
+  color: var(--texto-secundario);
+  padding: 1.5rem;
+}
+
+/* Classes utilitárias */
+.texto-centralizado {
+  text-align: center;
+}
+
+.texto-direita {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .container-modal {
+    margin: 1rem;
+  }
+
+  .cabecalho-modal,
+  .conteudo-modal {
+    padding: 1rem;
+  }
+
+  .grade-informacoes {
+    grid-template-columns: 1fr;
+  }
+
+  .secao-totais {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+}

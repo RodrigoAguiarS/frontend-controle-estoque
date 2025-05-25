@@ -75,9 +75,10 @@ export class TipoProdutoListComponent {
       margemLucro: [''],
     });
     this.alertaService.limparAlerta();
+    this.buscarTiposProduto();
   }
 
-  buscarStatus(): void {
+  buscarTiposProduto(): void {
     this.carregando = true;
     const params = {
       ...this.filtroForm.value,
@@ -102,10 +103,7 @@ export class TipoProdutoListComponent {
             'Nenhum resultado encontrado.'
           );
         } else {
-          this.alertaService.mostrarAlerta(
-            'success',
-            'Tipo de Produto carrregados com sucesso.'
-          );
+          this.alertaService.limparAlerta();
         }
       },
       error: (ex) => {
@@ -121,6 +119,6 @@ export class TipoProdutoListComponent {
 
   aoMudarPagina(pageIndex: number): void {
     this.paginaAtual = pageIndex;
-    this.buscarStatus();
+    this.buscarTiposProduto();
   }
 }

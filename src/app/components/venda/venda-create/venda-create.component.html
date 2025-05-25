@@ -1,206 +1,217 @@
-<div class="pdv-container">
-  <!-- Cabeçalho do PDV -->
-  <header class="pdv-header">
-    <h1>Terminal de Vendas</h1>
-    <div class="pdv-clock">{{ today | date : "dd/MM/yyyy HH:mm" }}</div>
-  </header>
+<nz-spin
+  [nzSpinning]="processandoVenda"
+  [nzDelay]="500"
+  nzTip="Processando venda..."
+  class="pdv-spinner"
+>
+  <div class="pdv-container">
+    <!-- Cabeçalho do PDV -->
+    <header class="pdv-header">
+      <h1>Terminal de Vendas</h1>
+      <div class="pdv-clock">{{ today | date : "dd/MM/yyyy HH:mm" }}</div>
+    </header>
 
-  <div class="pdv-main">
-    <!-- Painel Esquerdo - Pesquisa e listagem de produtos -->
-    <div class="pdv-panel products-panel">
-      <form class="search-form" [formGroup]="pdvForm">
-        <div class="search-row">
-          <div class="search-input">
-            <label for="produto">Produto / Código</label>
-            <div class="input-with-icon">
-              <i nz-icon nzType="search" nzTheme="outline"></i>
+    <div class="pdv-main">
+      <!-- Painel Esquerdo - Pesquisa e listagem de produtos -->
+      <div class="pdv-panel products-panel">
+        <form class="search-form" [formGroup]="pdvForm">
+          <div class="search-row">
+            <div class="search-input">
+              <label for="produto">Produto / Código</label>
+              <div class="input-with-icon">
+                <i nz-icon nzType="search" nzTheme="outline"></i>
+                <input
+                  type="text"
+                  nz-input
+                  formControlName="produto"
+                  id="produto"
+                  placeholder="Digite código ou nome do produto"
+                  [nzAutocomplete]="auto"
+                  (input)="onInput($event)"
+                />
+              </div>
+              <nz-autocomplete
+                #auto
+                (selectionChange)="selecionarProduto($event)"
+              >
+                <nz-auto-option
+                  *ngFor="let produto of produtosAutocomplete"
+                  [nzValue]="produto"
+                >
+                  {{ produto }}
+                </nz-auto-option>
+              </nz-autocomplete>
+            </div>
+
+            <div class="quantity-input">
+              <label for="quantidade">Qtde</label>
               <input
-                type="text"
+                type="number"
                 nz-input
-                formControlName="produto"
-                id="produto"
-                placeholder="Digite código ou nome do produto"
-                [nzAutocomplete]="auto"
-                (input)="onInput($event)"
+                formControlName="quantidade"
+                id="quantidade"
+                min="1"
               />
             </div>
-            <nz-autocomplete
-              #auto
-              (selectionChange)="selecionarProduto($event)"
+
+            <button
+              nz-button
+              nzType="primary"
+              class="add-product-btn"
+              (click)="adicionarAoCarrinho()"
             >
-              <nz-auto-option
-                *ngFor="let produto of produtosAutocomplete"
-                [nzValue]="produto"
-              >
-                {{ produto }}
-              </nz-auto-option>
-            </nz-autocomplete>
+              <i nz-icon nzType="plus"></i>
+              <span>Adicionar</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Tabela de produtos adicionados -->
+        <div class="products-table-wrapper">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th class="col-code">Código</th>
+                <th class="col-desc">Descrição</th>
+                <th class="col-qty">Qtde</th>
+                <th class="col-price">Valor Un.</th>
+                <th class="col-total">Subtotal</th>
+                <th class="col-action">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of itensCarrinho" class="product-row">
+                <td class="col-code">{{ item.produto.id }}</td>
+                <td class="col-desc">{{ item.produto.descricao }}</td>
+                <td class="col-qty">
+                  <div class="qty-control">
+                    <button
+                      class="qty-btn"
+                      (click)="diminuirQuantidade(item.produto)"
+                    >
+                      -
+                    </button>
+                    <span>{{ item.quantidade }}</span>
+                    <button
+                      class="qty-btn"
+                      (click)="aumentarQuantidade(item.produto)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </td>
+                <td class="col-price">
+                  {{ item.produto.valorVenda | currency : "BRL" }}
+                </td>
+                <td class="col-total">
+                  {{
+                    item.produto.valorVenda * item.quantidade | currency : "BRL"
+                  }}
+                </td>
+                <td class="col-action">
+                  <button
+                    type="button"
+                    class="remove-btn"
+                    (click)="removerItem(item.produto.id)"
+                  >
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="!itensCarrinho.length" class="empty-cart">
+                <td colspan="6">
+                  <div class="empty-state">
+                    <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+                    <p>Nenhum item adicionado</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Painel Direito - Resumo e pagamento -->
+      <div class="pdv-panel summary-panel" [formGroup]="pdvForm">
+        <div class="summary-box">
+          <div class="summary-header">
+            <h2>Resumo da venda</h2>
           </div>
 
-          <div class="quantity-input">
-            <label for="quantidade">Qtde</label>
-            <input
-              type="number"
-              nz-input
-              formControlName="quantidade"
-              id="quantidade"
-              min="1"
-            />
-          </div>
+          <div class="summary-content">
+            <div class="summary-item">
+              <span class="summary-label">Itens:</span>
+              <span class="summary-value">{{ itensCarrinho.length }}</span>
+            </div>
 
+            <div class="summary-item">
+              <span class="summary-label">Subtotal:</span>
+              <span class="summary-value">{{
+                valorParcial | currency : "BRL"
+              }}</span>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Taxa ({{ acrescimo }}%):</span>
+              <span class="summary-value">{{
+                taxaPagamento | currency : "BRL"
+              }}</span>
+            </div>
+
+            <div class="summary-total">
+              <span class="summary-label">Total:</span>
+              <span class="summary-value">{{
+                valorTotal | currency : "BRL"
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forma de Pagamento -->
+        <div class="payment-box">
+          <label for="pagamento" class="payment-label"
+            >Forma de Pagamento</label
+          >
+          <nz-select
+            formControlName="pagamento"
+            id="pagamento"
+            class="payment-select"
+          >
+            <nz-option
+              *ngFor="let pagamento of pagamentos"
+              [nzValue]="pagamento"
+              [nzLabel]="pagamento.nome"
+            >
+              {{ pagamento.nome }}
+            </nz-option>
+          </nz-select>
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="action-buttons">
+          <button
+            nz-button
+            nzType="default"
+            class="cancel-btn"
+            (click)="resetForm()"
+          >
+            <i nz-icon nzType="close"></i>
+            Limpar Venda
+          </button>
           <button
             nz-button
             nzType="primary"
-            class="add-product-btn"
-            (click)="adicionarAoCarrinho()"
+            class="finish-btn"
+            [disabled]="
+              !itensCarrinho.length || !pdvForm.get('pagamento')?.valid
+            "
+            (click)="realizarVenda()"
           >
-            <i nz-icon nzType="plus"></i>
-            <span>Adicionar</span>
+            <i nz-icon nzType="check"></i>
+            Finalizar Venda
           </button>
         </div>
-      </form>
-
-      <!-- Tabela de produtos adicionados -->
-      <div class="products-table-wrapper">
-        <table class="products-table">
-          <thead>
-            <tr>
-              <th class="col-code">Código</th>
-              <th class="col-desc">Descrição</th>
-              <th class="col-qty">Qtde</th>
-              <th class="col-price">Valor Un.</th>
-              <th class="col-total">Subtotal</th>
-              <th class="col-action">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of itensCarrinho" class="product-row">
-              <td class="col-code">{{ item.produto.id }}</td>
-              <td class="col-desc">{{ item.produto.descricao }}</td>
-              <td class="col-qty">
-                <div class="qty-control">
-                  <button
-                    class="qty-btn"
-                    (click)="diminuirQuantidade(item.produto)"
-                  >
-                    -
-                  </button>
-                  <span>{{ item.quantidade }}</span>
-                  <button
-                    class="qty-btn"
-                    (click)="aumentarQuantidade(item.produto)"
-                  >
-                    +
-                  </button>
-                </div>
-              </td>
-              <td class="col-price">
-                {{ item.produto.valorVenda | currency : "BRL" }}
-              </td>
-              <td class="col-total">
-                {{
-                  item.produto.valorVenda * item.quantidade | currency : "BRL"
-                }}
-              </td>
-              <td class="col-action">
-                <button
-                  type="button"
-                  class="remove-btn"
-                  (click)="removerItem(item.produto.id)"
-                >
-                  <i nz-icon nzType="delete" nzTheme="outline"></i>
-                </button>
-              </td>
-            </tr>
-            <tr *ngIf="!itensCarrinho.length" class="empty-cart">
-              <td colspan="6">
-                <div class="empty-state">
-                  <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
-                  <p>Nenhum item adicionado</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Painel Direito - Resumo e pagamento -->
-    <div class="pdv-panel summary-panel" [formGroup]="pdvForm">
-      <div class="summary-box">
-        <div class="summary-header">
-          <h2>Resumo da venda</h2>
-        </div>
-
-        <div class="summary-content">
-          <div class="summary-item">
-            <span class="summary-label">Itens:</span>
-            <span class="summary-value">{{ itensCarrinho.length }}</span>
-          </div>
-
-          <div class="summary-item">
-            <span class="summary-label">Subtotal:</span>
-            <span class="summary-value">{{
-              valorParcial | currency : "BRL"
-            }}</span>
-          </div>
-
-          <div class="summary-item">
-            <span class="summary-label">Taxa ({{ acrescimo }}%):</span>
-            <span class="summary-value">{{
-              taxaPagamento | currency : "BRL"
-            }}</span>
-          </div>
-
-          <div class="summary-total">
-            <span class="summary-label">Total:</span>
-            <span class="summary-value">{{
-              valorTotal | currency : "BRL"
-            }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Forma de Pagamento -->
-      <div class="payment-box">
-        <label for="pagamento" class="payment-label">Forma de Pagamento</label>
-        <nz-select
-          formControlName="pagamento"
-          id="pagamento"
-          class="payment-select"
-        >
-          <nz-option
-            *ngFor="let pagamento of pagamentos"
-            [nzValue]="pagamento"
-            [nzLabel]="pagamento.nome"
-          >
-            {{ pagamento.nome }}
-          </nz-option>
-        </nz-select>
-      </div>
-
-      <!-- Botões de ação -->
-      <div class="action-buttons">
-        <button
-          nz-button
-          nzType="default"
-          class="cancel-btn"
-          (click)="resetForm()"
-        >
-          <i nz-icon nzType="close"></i>
-          Limpar Venda
-        </button>
-        <button
-          nz-button
-          nzType="primary"
-          class="finish-btn"
-          [disabled]="!itensCarrinho.length || !pdvForm.get('pagamento')?.valid"
-          (click)="realizarVenda()"
-        >
-          <i nz-icon nzType="check"></i>
-          Finalizar Venda
-        </button>
       </div>
     </div>
   </div>
-</div>
+</nz-spin>

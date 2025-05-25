@@ -26,6 +26,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NgxCurrencyDirective } from 'ngx-currency';
+import { VendaModalComponent } from '../venda-modal/venda-modal.component';
 
 @Component({
   selector: 'app-venda-list',
@@ -81,6 +82,7 @@ export class VendaListComponent {
 
   ngOnInit(): void {
     this.carregarPagamentos();
+    this.findAllVendas();
     this.alertaService.limparAlerta();
   }
 
@@ -133,10 +135,7 @@ export class VendaListComponent {
             'Nenhum resultado encontrado.'
           );
         } else {
-          this.alertaService.mostrarAlerta(
-            'success',
-            'Usuários carregados com sucesso.'
-          );
+          this.alertaService.limparAlerta();
         }
       },
       error: (e) => {
@@ -182,7 +181,48 @@ export class VendaListComponent {
         this.message.error('Erro ao gerar o cupom da venda');
       },
       complete: () => {
-        // Opcional: código a ser executado quando o observable completar
+        this.carregando = false;
+      },
+    });
+  }
+
+  abrirModalVenda(venda: Venda): void {
+    this.carregando = true;
+    this.vendaService.findById(venda.id).subscribe({
+      next: (vendaDetalhada) => {
+        const modal = this.modal.create({
+          nzTitle: `Detalhes da Venda #${venda.id}`,
+          nzContent: VendaModalComponent,
+          nzWidth: '800px',
+          nzFooter: [
+            {
+              label: 'Fechar',
+              onClick: () => modal.destroy(),
+            },
+            {
+              label: 'Gerar Cupom',
+              type: 'primary',
+              onClick: () => {
+                this.gerarCupomVenda(venda.id);
+                return true;
+              },
+            },
+          ],
+          nzMaskClosable: true,
+          nzClassName: 'venda-detalhes-modal',
+        });
+
+        const instance = modal.getContentComponent();
+        if (instance) {
+          instance.venda = vendaDetalhada || venda;
+        }
+
+        this.carregando = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da venda:', error);
+        this.message.error('Não foi possível carregar os detalhes da venda.');
+        this.carregando = false;
       },
     });
   }

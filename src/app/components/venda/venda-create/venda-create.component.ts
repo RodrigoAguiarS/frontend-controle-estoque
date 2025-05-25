@@ -29,6 +29,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { Router } from '@angular/router';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-venda-create',
@@ -46,6 +47,7 @@ import { Router } from '@angular/router';
     NzTableModule,
     NzDrawerModule,
     NzListModule,
+    NzSpinModule,
     NzSelectModule,
     NzFormModule,
   ],
@@ -61,6 +63,7 @@ export class VendaCreateComponent {
   drawerVisible = false;
   showAutocomplete = false;
   today = new Date();
+  processandoVenda = false;
 
   produtos: Produto[] = [];
   pagamentos: FormaDePagamento[] = [];
@@ -225,6 +228,7 @@ export class VendaCreateComponent {
   }
 
   private confirmarVenda(): void {
+    this.processandoVenda = true;
     this.atualizarFormulario();
 
     if (this.pdvForm.valid) {
@@ -248,6 +252,9 @@ export class VendaCreateComponent {
         error: (ex) => {
           this.mensagemService.error(ex.error.message);
           this.resetForm();
+        },
+        complete: () => {
+          this.processandoVenda = false;
         },
       });
     } else {

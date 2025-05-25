@@ -1,0 +1,99 @@
+<!-- venda-detalhes.component.html -->
+<div class="modal-venda">
+  <div class="container-modal">
+    <!-- Cabeçalho -->
+    <div class="cabecalho-modal">
+      <div class="conteudo-cabecalho">
+        <h2 class="titulo-modal">Detalhes da Venda</h2>
+        <button class="botao-fechar" aria-label="Fechar modal">
+          <span class="icone-fechar">&times;</span>
+        </button>
+      </div>
+      <div class="informacoes-venda">
+        <div class="item-informacao">
+          <span class="rotulo">Venda #</span>
+          <span class="valor">{{ venda?.id }}</span>
+        </div>
+        <div class="item-informacao">
+          <span class="rotulo">Data:</span>
+          <span class="valor">{{
+            venda?.criadoEm | date : "dd/MM/yyyy HH:mm"
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corpo do Modal -->
+    <div class="conteudo-modal">
+      <!-- Seção de Pagamento -->
+      <div class="secao-pagamento">
+        <div class="grade-informacoes">
+          <div class="cartao-informacao">
+            <span class="titulo-informacao">Forma de Pagamento</span>
+            <span class="dado-informacao">{{
+              venda?.formaDePagamento?.nome
+            }}</span>
+          </div>
+          <div class="cartao-informacao">
+            <span class="titulo-informacao">Taxa</span>
+            <span class="dado-informacao"
+              >{{ venda?.formaDePagamento?.porcentagemAcrescimo }}%</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção de Totais -->
+      <div class="secao-totais">
+        <div class="item-total">
+          <span class="rotulo-total">Subtotal</span>
+          <span class="valor-total">{{
+            calcularSubtotal() | currency : "BRL"
+          }}</span>
+        </div>
+        <div class="item-total total-final">
+          <span class="rotulo-total">Total Final</span>
+          <span class="valor-total">{{
+            venda?.valorTotal | currency : "BRL"
+          }}</span>
+        </div>
+      </div>
+
+      <!-- Seção de Itens -->
+      <div class="secao-itens">
+        <h3 class="titulo-secao">Itens da Venda</h3>
+        <div class="container-tabela">
+          <table class="tabela-itens">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Produto</th>
+                <th class="texto-centralizado">Qtde</th>
+                <th class="texto-direita">Valor Unit.</th>
+                <th class="texto-direita">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of venda?.itens">
+                <td>{{ item.produto.id }}</td>
+                <td>{{ item.produto.descricao }}</td>
+                <td class="texto-centralizado">{{ item.quantidade }}</td>
+                <td class="texto-direita">
+                  {{ item.produto.valorVenda | currency : "BRL" }}
+                </td>
+                <td class="texto-direita">
+                  {{
+                    item.quantidade * item.produto.valorVenda | currency : "BRL"
+                  }}
+                </td>
+              </tr>
+              <tr *ngIf="!venda?.itens?.length" class="linha-vazia">
+                <td colspan="5">Nenhum item encontrado</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

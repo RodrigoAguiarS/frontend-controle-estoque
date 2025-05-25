@@ -74,9 +74,10 @@ export class FormadepagamentoListComponent {
       porcentagemAcrescimo: [''],
     });
     this.alertaService.limparAlerta();
+    this.buscarFormaDePagamento();
   }
 
-  buscarStatus(): void {
+  buscarFormaDePagamento(): void {
     this.carregando = true;
     const params = {
       ...this.filtroForm.value,
@@ -101,10 +102,7 @@ export class FormadepagamentoListComponent {
             'Nenhum resultado encontrado.'
           );
         } else {
-          this.alertaService.mostrarAlerta(
-            'success',
-            'Tipo de Produto carrregados com sucesso.'
-          );
+          this.alertaService.limparAlerta();
         }
       },
       error: (ex) => {
@@ -120,6 +118,6 @@ export class FormadepagamentoListComponent {
 
   aoMudarPagina(pageIndex: number): void {
     this.paginaAtual = pageIndex;
-    this.buscarStatus();
+    this.buscarFormaDePagamento();
   }
 }
