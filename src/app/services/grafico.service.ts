@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProdutoLucroResponse } from '../model/ProdutoLucroResponse';
 import { Observable } from 'rxjs';
-import { API_CONFIG } from '../../config/api.config';
+import { API_CONFIG } from '../config/api.config';
 import { HttpClient } from '@angular/common/http';
 import { TipoProdutoEstoqueResponse } from '../model/TipoProdutoEstoqueResponse';
 import { MovimentacaoResponse } from '../model/MovimentacaoResponse';

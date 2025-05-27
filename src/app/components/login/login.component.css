@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+nz-form-item {
+  margin-bottom: 15px;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+  background-color: #263238;
+}
+
+.nao-cliente {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #595959;
+}
+
+.nao-cliente a {
+  color: #1890ff;
+  text-decoration: none;
+}
+
+.nao-cliente a:hover {
+  text-decoration: underline;
+}

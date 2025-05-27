@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TipoProduto } from '../../../model/TipoProduto';
-import { API_CONFIG } from '../../../../config/api.config';
+import { API_CONFIG } from '../../../config/api.config';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProdutoService } from '../../../services/produto.service';
 import { TipoProdutoService } from '../../../services/tipo-produto.service';

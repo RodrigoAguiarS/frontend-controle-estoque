@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, mergeMap, Observable, of, toArray } from 'rxjs';
 import { TipoProduto } from '../model/TipoProduto';
-import { API_CONFIG } from '../../config/api.config';
+import { API_CONFIG } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +84,6 @@ export class TipoProdutoService {
     id?: string;
     nome?: string;
     descricao?: string;
-    margemLucro?: string;
   }): Observable<{ content: TipoProduto[]; page: { totalElements: number } }> {
     let url = `${API_CONFIG.baseUrl}/tiposprodutos?page=${params.page}&size=${params.size}`;
 
@@ -98,10 +97,6 @@ export class TipoProdutoService {
 
     if (params.descricao) {
       url += `&descricao=${encodeURIComponent(params.descricao)}`;
-    }
-
-    if (params.margemLucro) {
-      url += `&margemLucro=${encodeURIComponent(params.margemLucro)}`;
     }
 
     return this.http.get<{

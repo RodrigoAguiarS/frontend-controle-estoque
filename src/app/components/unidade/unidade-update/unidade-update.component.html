@@ -1,0 +1,108 @@
+<div class="container-wrapper">
+  <nz-spin [nzSpinning]="carregando">
+    <div class="container">
+      <nz-card [nzBordered]="false" class="form-container">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="unidadeForm"
+          (ngSubmit)="update()"
+          class="status-form"
+        >
+          <!-- Cabeçalho -->
+          <h2 class="form-title">Cadastrar Unidade</h2>
+
+          <!-- Informações da Unidade -->
+          <h3 class="form-section-title">Informações da Unidade</h3>
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="nome"
+                  >Nome</nz-form-label
+                >
+                <nz-form-control
+                  nzErrorTip="Por favor informe o nome da unidade!"
+                >
+                  <input
+                    id="nome"
+                    nz-input
+                    maxlength="50"
+                    formControlName="nome"
+                    placeholder="Ex: Unidade Central"
+                    required
+                  />
+                  <div class="char-counter">
+                    {{ unidadeForm.get("nome")?.value?.length || 0 }}/50
+                    caracteres
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Campo de telefone adicionado -->
+            <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="telefone"
+                  >Telefone</nz-form-label
+                >
+                <nz-form-control nzErrorTip="Por favor informe um telefone válido!">
+                  <input
+                    id="telefone"
+                    nz-input
+                    formControlName="telefone"
+                    placeholder="Ex: (11) 99999-9999"
+                    required
+                    mask="(00) 00000-0000"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="empresa"
+                  >Empresa</nz-form-label
+                >
+                <nz-form-control nzErrorTip="Por favor selecione a empresa!">
+                  <nz-select
+                    id="empresa"
+                    formControlName="empresa"
+                    nzPlaceHolder="Selecione uma empresa"
+                    required
+                  >
+                    <nz-option
+                      *ngFor="let empresa of empresas"
+                      [nzValue]="empresa.id"
+                      [nzLabel]="empresa.nome"
+                    ></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <!-- Ações -->
+          <div class="form-actions">
+            <button
+              type="button"
+              nz-button
+              nzType="default"
+              (click)="cancelar()"
+            >
+              Cancelar
+            </button>
+            <button
+              [nzLoading]="carregando"
+              type="submit"
+              nz-button
+              nzType="primary"
+              [disabled]="!unidadeForm.valid"
+            >
+              Atualizar
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>

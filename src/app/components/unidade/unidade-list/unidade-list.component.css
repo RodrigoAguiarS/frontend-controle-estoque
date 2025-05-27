@@ -1,0 +1,99 @@
+/* Reset e base */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container principal */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Alertas */
+nz-alert {
+  margin-bottom: 20px;
+}
+
+/* Seção de busca */
+.container-busca, .search-container {
+  margin-bottom: 20px;
+}
+
+.container-busca h2, .search-container h2 {
+  margin-bottom: 10px;
+}
+
+/* Formulários de busca: grid responsivo */
+.container-busca form,
+.search-container form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  align-items: end;
+}
+
+.container-busca form input,
+.search-container form input,
+.container-busca form nz-select,
+.search-container form nz-select,
+.container-busca form nz-date-picker,
+.search-container form nz-date-picker {
+  width: 100%;
+}
+
+/* Botão ocupa largura total na célula */
+.container-busca form button,
+.search-container form button {
+  width: 100%;
+}
+
+/* Títulos */
+h1 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+h2 {
+  margin-top: 30px;
+  font-size: 1.5rem;
+}
+
+/* Tabelas */
+nz-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+nz-table th,
+nz-table td {
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  padding: 10px;
+}
+
+/* Ícones */
+nz-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+nz-icon:hover {
+  transform: scale(1.2);
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+  .container-busca form,
+  .search-container form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormaDePagamento } from '../model/FormaDePagamento';
-import { API_CONFIG } from '../../config/api.config';
+import { API_CONFIG } from '../config/api.config';
 import { map, mergeMap, Observable, of, toArray } from 'rxjs';
 
 @Injectable({

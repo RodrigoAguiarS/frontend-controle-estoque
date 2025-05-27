@@ -6,6 +6,7 @@ export interface Venda {
   criadoEm: string;
   formaDePagamento: FormaDePagamento;
   valorTotal?: number;
+  subTotal?: number;
   observacao?: string;
   itens: ItemVenda[];
   ativo: boolean;

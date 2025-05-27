@@ -74,7 +74,7 @@ export class ProdutoListComponent {
     valorFornecedor: 0,
     valorVenda: 0,
     ativo: false,
-    tipoProduto: { nome: '', id: 0, descricao: '', margemLucro: 0 },
+    tipoProduto: { nome: '', id: 0, descricao: ''},
     quantidadeEstoque: 0,
     dataCriacao: '',
   };
@@ -83,7 +83,7 @@ export class ProdutoListComponent {
 
   constructor(
     private readonly message: NzMessageService,
-    private readonly produtoervice: ProdutoService,
+    private readonly produtoService: ProdutoService,
     private readonly tipoProdutoService: TipoProdutoService,
     private readonly formBuilder: FormBuilder,
     public readonly alertaService: AlertaService
@@ -91,7 +91,7 @@ export class ProdutoListComponent {
 
   ngOnInit(): void {
     this.initForm();
-    this.carregarUsuarios();
+    this.carregarTipoProdutos();
     this.alertaService.limparAlerta();
     this.buscarProduto();
   }
@@ -107,7 +107,7 @@ export class ProdutoListComponent {
     });
   }
 
-  private carregarUsuarios(): void {
+  private carregarTipoProdutos(): void {
     this.tipoProdutoService.findAll().subscribe({
       next: (response) => {
         this.tiposProduto = response;
@@ -128,7 +128,7 @@ export class ProdutoListComponent {
       descricao:
         this.filtroForm.get('descricao')?.value.trim().toLowerCase() ?? '',
     };
-    this.produtoervice.buscarPaginado(params).subscribe({
+    this.produtoService.buscarPaginado(params).subscribe({
       next: (response) => {
         this.produtos = response.content;
         this.totalElementos = response.page.totalElements;

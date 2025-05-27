@@ -83,7 +83,6 @@ export class TipoProdutoCreateComponent {
       nome: ['', Validators.required],
       descricao: ['', Validators.required],
       ativo: [false, Validators.required],
-      margemLucro: [0, Validators.required],
     });
   }
 

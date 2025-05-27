@@ -8,14 +8,10 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <a
-        href="https://www.linkedin.com/in/rodrigo-aguiar-silva-a8311019a/"
-        target="_blank"
-        class="linkedin-link"
-      >
-        <i nz-icon nzType="linkedin" nzTheme="fill"></i>
-        <h1>Controle de Estoque</h1>
-      </a>
+      <div class="logo-container">
+        <i nz-icon nzType="appstore" nzTheme="outline"></i>
+        <h1>Sistema de Controle de Estoque</h1>
+      </div>
     </div>
     <ul
       nz-menu
@@ -29,7 +25,20 @@
         <span>Home</span>
       </li>
 
-      <!-- PRODUTO -->
+      <!-- UNIDADE -->
+      <li nz-submenu nzTitle="Unidades" nzIcon="global">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/unidades/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/unidades/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
       <li nz-submenu nzTitle="Produto" nzIcon="shopping-cart">
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/produtos/create">

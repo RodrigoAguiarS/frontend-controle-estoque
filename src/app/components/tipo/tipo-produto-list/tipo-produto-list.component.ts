@@ -72,7 +72,6 @@ export class TipoProdutoListComponent {
       id: [''],
       nome: [''],
       descricao: [''],
-      margemLucro: [''],
     });
     this.alertaService.limparAlerta();
     this.buscarTiposProduto();
@@ -87,8 +86,6 @@ export class TipoProdutoListComponent {
       nome: this.filtroForm.get('nome')?.value.trim().toLowerCase() ?? '',
       descricao:
         this.filtroForm.get('descricao')?.value.trim().toLowerCase() ?? '',
-      margemLucro:
-        this.filtroForm.get('margemLucro')?.value.trim().toLowerCase() ?? '',
     };
     this.tipoService.buscarPaginado(params).subscribe({
       next: (response) => {

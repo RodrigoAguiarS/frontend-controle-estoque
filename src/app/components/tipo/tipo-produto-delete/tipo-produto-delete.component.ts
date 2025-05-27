@@ -93,7 +93,6 @@ export class TipoProdutoDeleteComponent {
       nome: ['', Validators.required],
       descricao: ['', Validators.required],
       ativo: ['', Validators.required],
-      margemLucro: ['', Validators.required],
     });
   }
 

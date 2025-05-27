@@ -17,7 +17,6 @@
       <input nz-input type="number" placeholder="Número" formControlName="id" />
       <input nz-input placeholder="Nome" formControlName="nome" />
       <input nz-input placeholder="Descrição" formControlName="descricao" />
-      <input nz-input placeholder="Margem de Lucro" formControlName="margemLucro" />
       <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
         <i nz-icon nzType="search"></i> Buscar
       </button>
@@ -41,7 +40,6 @@
         <th scope="col">Número</th>
         <th scope="col">Nome</th>
         <th scope="col">Descrição</th>
-        <th scope="col">Margem de Lucro</th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
@@ -50,7 +48,6 @@
         <td>{{ tipo.id }}</td>
         <td>{{ tipo.nome }}</td>
         <td>{{ tipo.descricao }}</td>
-        <td>{{ tipo.margemLucro }} %</td>
         <td>
           <a [routerLink]="['/tipos-produto/update', tipo.id]">
             <i
