@@ -1,78 +1,160 @@
-<nz-spin [nzSpinning]="carregando" nzTip="Carregando...">
-  <div class="chart-grid">
-    <app-chart
-      title="Produtos com Maior Faturamento"
-      [datasets]="revenueChartData"
-      [labels]="revenueChartLabels"
-      [type]="revenueChartType"
-      [legend]="revenueChartLegend"
-      [options]="revenueChartOptions"
-    >
-    </app-chart>
+<!-- caixa.component.html -->
+<div class="container-principal">
+  <nz-spin [nzSpinning]="carregando" nzTip="Carregando...">
+    <!-- Grade de cartões -->
+    <div class="grade-dashboard">
+      <!-- Card de Informações do Caixa -->
+      <nz-card class="cartao-informacoes-caixa" [nzBordered]="false" nzTitle="Informações do Caixa">
+        <div class="resumo-conteudo">
+          <div class="item-info">
+            <div class="icone-wrapper caixa">
+              <i nz-icon nzType="wallet" nzTheme="outline"></i>
+            </div>
+            <div class="detalhes-info">
+              <span class="rotulo">Valor em Caixa</span>
+              <span class="valor">{{ caixaInfo.valorAtual | currency : "BRL" }}</span>
+            </div>
+          </div>
 
-    <app-chart
-      title="Estoque por Tipo de Produto"
-      [datasets]="stockChartData"
-      [labels]="stockChartLabels"
-      [type]="stockChartType"
-      [legend]="stockChartLegend"
-      [options]="stockChartOptions"
-    >
-    </app-chart>
-  </div>
+          <div class="item-info">
+            <div class="icone-wrapper entrada">
+              <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
+            </div>
+            <div class="detalhes-info">
+              <span class="rotulo">Entradas</span>
+              <span class="valor">{{ caixaInfo.valorEntrada | currency : "BRL" }}</span>
+            </div>
+          </div>
 
-    <h2>Últimas Movimentações</h2>
-    <nz-spin [nzSpinning]="carregandoMovimentacoes">
-      <nz-list
-        class="movements-list"
-        [nzDataSource]="ultimasMovimentacoes"
-        [nzRenderItem]="movimentacaoTemplate"
-        [nzItemLayout]="'horizontal'"
-        [nzNoResult]="noDataTemplate"
-      >
-        <ng-template #movimentacaoTemplate let-item>
-          <nz-list-item
-            [ngClass]="{
-              entrada: item.tipo === 'ENTRADA',
-              saida: item.tipo === 'SAIDA'
-            }"
-          >
-            <nz-list-item-meta
-              [nzAvatar]="avatarTemplate"
-              [nzTitle]="titleTemplate"
-              [nzDescription]="descriptionTemplate"
-            >
-              <ng-template #avatarTemplate>
-                <nz-tag [nzColor]="item.tipo === 'ENTRADA' ? 'green' : 'red'">
-                  {{ item.tipo }}
-                </nz-tag>
-              </ng-template>
+          <div class="item-info">
+            <div class="icone-wrapper saida">
+              <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+            </div>
+            <div class="detalhes-info">
+              <span class="rotulo">Saídas</span>
+              <span class="valor">{{ caixaInfo.valorSaida | currency : "BRL" }}</span>
+            </div>
+          </div>
 
-              <ng-template #titleTemplate>
-                <div class="list-title">
-                  <span>{{ item.produto.descricao }}</span>
-                  <span class="quantity-badge"
-                    >Qtde: {{ item.quantidade }}</span
-                  >
-                </div>
-              </ng-template>
+          <div class="item-info">
+            <div class="icone-wrapper calendario">
+              <i nz-icon nzType="calendar" nzTheme="outline"></i>
+            </div>
+            <div class="detalhes-info">
+              <span class="rotulo">Data de Abertura</span>
+              <span class="valor">{{ caixaInfo.dataAbertura | date : "dd/MM/yyyy HH:mm" }}</span>
+            </div>
+          </div>
 
-              <ng-template #descriptionTemplate>
-                <span class="movement-date">{{
-                  item.criadoEm | date : "dd/MM/yyyy HH:mm"
-                }}</span>
-              </ng-template>
-            </nz-list-item-meta>
-          </nz-list-item>
-        </ng-template>
+          <div class="item-info">
+            <div class="icone-wrapper status" [ngClass]="{ ativo: caixaInfo.ativo, inativo: !caixaInfo.ativo }">
+              <i nz-icon [nzType]="caixaInfo.ativo ? 'check-circle' : 'close-circle'" nzTheme="outline"></i>
+            </div>
+            <div class="detalhes-info">
+              <span class="rotulo">Status do Caixa</span>
+              <span class="valor" [ngClass]="{'status-ativo': caixaInfo.ativo, 'status-inativo': !caixaInfo.ativo}">
+                {{ caixaInfo.ativo ? "Aberto" : "Fechado" }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </nz-card>
 
-        <ng-template #noDataTemplate>
-          <div class="empty-data">
-            <nz-empty
-              [nzNotFoundContent]="'Nenhuma movimentação encontrada'"
-            ></nz-empty>
+      <!-- Card de Vendas por Unidade -->
+      <nz-card class="cartao-vendas-unidade" [nzBordered]="false" nzTitle="Vendas por Unidade">
+        <div class="vendas-cabecalho">
+          <div class="vendas-total">
+            <span class="rotulo-total">Vendas Totais</span>
+            <span class="valor-total">{{ calcularTotalVendas() | currency : "BRL" }}</span>
+          </div>
+        </div>
+
+        <div class="lista-vendas-unidade" *ngIf="vendasPorUnidades?.length; else vazio">
+          <div class="item-unidade" *ngFor="let venda of vendasPorUnidades; let i = index">
+            <div class="info-unidade">
+              <div class="posicao">{{ i + 1 }}</div>
+              <div class="detalhes-unidade">
+                <div class="nome-unidade">{{ venda.unidade }}</div>
+                <nz-progress
+                  [nzPercent]="calcularPorcentagem(venda.valorTotal)"
+                  [nzShowInfo]="false"
+                  [nzStrokeColor]="getUnitColor(i)"
+                ></nz-progress>
+              </div>
+            </div>
+            <div class="valores-unidade">
+              <div class="valor-vendas">{{ venda.valorTotal | currency : "BRL" }}</div>
+              <div class="contagem-vendas">{{ venda.totalVendas }} vendas</div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #vazio>
+          <div class="estado-vazio">
+            <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+            <p>Nenhum dado de vendas disponível</p>
+            <button nz-button nzType="primary" (click)="carregarVendasPorUnidade()">Atualizar dados</button>
           </div>
         </ng-template>
-      </nz-list>
-    </nz-spin>
-</nz-spin>
+      </nz-card>
+
+      <!-- Card de Vendas por Forma de Pagamento -->
+      <nz-card class="cartao-vendas-pagamento" [nzBordered]="false" nzTitle="Vendas por Forma de Pagamento">
+        <div *ngIf="vendasPorFormasDePagamento && vendasPorFormasDePagamento.length > 0; else emptyPaymentState">
+          <div class="lista-pagamentos">
+            <div class="item-pagamento" *ngFor="let pagamento of vendasPorFormasDePagamento">
+              <div class="info-pagamento">
+                <span class="metodo-pagamento">{{ pagamento.formaPagamento }}</span>
+              </div>
+              <div class="valores-pagamento">
+                <span class="valor-total">{{ pagamento.valorTotal | currency : "BRL" }}</span>
+                <span class="contagem-vendas">({{ pagamento.totalVendas }} vendas)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grafico-pizza-container">
+            <app-chart
+              title="Distribuição por Forma de Pagamento"
+              [datasets]="paymentChartData"
+              [labels]="paymentChartLabels"
+              type="pie"
+              [legend]="true"
+              [options]="paymentChartOptions"
+            ></app-chart>
+          </div>
+        </div>
+
+        <ng-template #emptyPaymentState>
+          <div class="estado-vazio">
+            <i nz-icon nzType="credit-card" nzTheme="outline"></i>
+            <p>Sem dados de pagamento disponíveis</p>
+          </div>
+        </ng-template>
+      </nz-card>
+
+      <!-- Card de Desempenho de Vendas -->
+      <nz-card class="cartao-desempenho-vendas" [nzBordered]="false" nzTitle="Desempenho de Vendas">
+        <div class="grade-graficos">
+          <app-chart
+            title="Produtos com Maior Faturamento"
+            [datasets]="revenueChartData"
+            [labels]="revenueChartLabels"
+            [type]="revenueChartType"
+            [legend]="revenueChartLegend"
+            [options]="revenueChartOptions"
+          ></app-chart>
+
+          <app-chart
+            title="Estoque por Tipo de Produto"
+            [datasets]="stockChartData"
+            [labels]="stockChartLabels"
+            [type]="stockChartType"
+            [legend]="stockChartLegend"
+            [options]="stockChartOptions"
+          ></app-chart>
+        </div>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>

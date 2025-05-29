@@ -1,0 +1,163 @@
+<div class="container-wrapper">
+  <nz-spin [nzSpinning]="carregando">
+    <div class="container">
+      <nz-card [nzBordered]="false" class="form-container">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="usuarioForm"
+          (ngSubmit)="update()"
+          class="usuario-form"
+        >
+          <h2 class="form-title">Cadastrar Usuário</h2>
+          <h3 class="form-section-title">Informações do Usuário</h3>
+
+          <div class="form-row">
+            <!-- Nome -->
+            <nz-form-item class="form-item-full">
+              <nz-form-label [nzRequired]="true" nzFor="nome"
+                >Nome</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="nome"
+                  nz-input
+                  maxlength="50"
+                  formControlName="nome"
+                  placeholder="Digite o nome completo"
+                  required
+                />
+                <div class="char-counter">
+                  {{ usuarioForm.get("nome")?.value?.length || 0 }}/50
+                  caracteres
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <!-- Email -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="email"
+                >Email</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="email"
+                  nz-input
+                  type="email"
+                  formControlName="email"
+                  placeholder="Digite o email"
+                  maxlength="100"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- Telefone -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="telefone"
+                >Telefone</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="telefone"
+                  nz-input
+                  formControlName="telefone"
+                  placeholder="Ex: (11) 99999-9999"
+                  required
+                  mask="(00) 00000-0000"
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <!-- Perfil -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="perfil"
+                >Perfil</nz-form-label
+              >
+              <nz-form-control>
+                <nz-select
+                  id="perfil"
+                  formControlName="perfil"
+                  nzPlaceHolder="Selecione o perfil"
+                  required
+                >
+                  <nz-option
+                    *ngFor="let perfil of perfis"
+                    [nzValue]="perfil.id"
+                    [nzLabel]="perfil.nome"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- Unidade -->
+            <nz-form-item>
+              <nz-form-label [nzRequired]="true" nzFor="unidade"
+                >Unidade</nz-form-label
+              >
+              <nz-form-control>
+                <nz-select
+                  id="unidade"
+                  formControlName="unidade"
+                  nzPlaceHolder="Selecione a unidade"
+                  required
+                >
+                  <nz-option
+                    *ngFor="let unidade of unidades"
+                    [nzValue]="unidade.id"
+                    [nzLabel]="unidade.nome"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <div class="form-row">
+            <!-- Senha -->
+            <nz-form-item class="form-item-full">
+              <nz-form-label [nzRequired]="true" nzFor="senha"
+                >Senha</nz-form-label
+              >
+              <nz-form-control>
+                <input
+                  id="senha"
+                  nz-input
+                  type="password"
+                  formControlName="senha"
+                  placeholder="Digite a senha"
+                  required
+                />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <!-- Ações -->
+          <div class="form-actions">
+            <button
+              type="button"
+              nz-button
+              nzType="default"
+              (click)="cancelar()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              nz-button
+              nzType="primary"
+              [disabled]="!usuarioForm.valid || carregando"
+              [nzLoading]="carregando"
+            >
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>
+

@@ -14,20 +14,19 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzMenuModule,
     RouterModule,
     NzIconModule,
-    NzBadgeModule
-],
+    NzBadgeModule,
+  ],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+  styleUrl: './nav.component.css',
 })
 export class NavComponent {
-
   isCollapsed = false;
 
   constructor() {}
 
   ngOnInit() {}
 
-    onCollapse(collapsed: boolean): void {
+  onCollapse(collapsed: boolean): void {
     requestAnimationFrame(() => {
       this.isCollapsed = collapsed;
     });

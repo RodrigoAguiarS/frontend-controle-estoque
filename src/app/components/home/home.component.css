@@ -1,120 +1,252 @@
-/* Variáveis para cores e valores reutilizáveis */
-:root {
-  --bg-color: #f9f9f9;
-  --border-color: #ddd;
-  --text-color: #333;
-  --text-light: #666;
-  --entrada-color: #52c41a;
-  --saida-color: #ff4d4f;
-  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --border-radius: 8px;
-  --padding-container: 15px;
+/* caixa.component.css */
+.container-principal {
+  padding: 16px;
+  height: calc(90vh - 64px); /* Ajusta para altura total da tela */
+  overflow-y: auto;
 }
 
-/* Layout da grade e containers */
-.chart-grid {
+.grade-dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  gap: 16px;
 }
 
-/* Estilos compartilhados para containers */
-.chart-container, .recent-movements-container {
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+/* Cartão Informações do Caixa */
+.cartao-informacoes-caixa {
+  grid-column: span 2;
 }
 
-.chart-container {
-  padding: 10px;
-  text-align: center;
+.cartao-informacoes-caixa .resumo-conteudo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
 }
 
-.recent-movements-container {
-  margin: 0 20px 20px;
-  padding: var(--padding-container);
-}
-
-/* Títulos */
-h2, .chart-container h3 {
-  text-align: center;
-  font-size: 18px;
-  color: var(--text-color);
-  margin-bottom: 15px;
-}
-
-/* Lista de movimentações */
-.movements-list {
-  height: 300px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #d1d1d1 var(--bg-color);
-}
-
-.movements-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.movements-list::-webkit-scrollbar-track {
-  background: var(--bg-color);
-  border-radius: 4px;
-}
-
-.movements-list::-webkit-scrollbar-thumb {
-  background-color: #d1d1d1;
-  border-radius: 4px;
-}
-
-/* Conteúdo dos itens */
-.list-title {
+.cartao-informacoes-caixa .item-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.quantity-badge {
-  background-color: #f0f0f0;
-  padding: 2px 8px;
-  border-radius: 12px;
+.cartao-informacoes-caixa .icone-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.caixa {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.entrada {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.saida {
+  background-color: #fff2e8;
+  color: #fa541c;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.calendario {
+  background-color: #f9f0ff;
+  color: #722ed1;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.status.ativo {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.cartao-informacoes-caixa .icone-wrapper.status.inativo {
+  background-color: #fff1f0;
+  color: #f5222d;
+}
+
+.cartao-informacoes-caixa .rotulo {
+  display: block;
   font-size: 12px;
+  color: #595959;
+}
+
+.cartao-informacoes-caixa .valor {
+  font-size: 16px;
   font-weight: 500;
 }
 
-.movement-date {
-  color: var(--text-light);
-  font-size: 12px;
+.cartao-informacoes-caixa .status-ativo {
+  color: #52c41a;
 }
 
-/* Classes de tipo */
-.entrada {
-  border-left: 3px solid var(--entrada-color);
-  background-color: rgba(82, 196, 26, 0.05);
+.cartao-informacoes-caixa .status-inativo {
+  color: #f5222d;
 }
 
-.saida {
-  border-left: 3px solid var(--saida-color);
-  background-color: rgba(255, 77, 79, 0.05);
+/* Cartão Vendas por Unidade */
+.cartao-vendas-unidade .vendas-cabecalho {
+  margin-bottom: 16px;
 }
 
-/* Estado vazio */
-.empty-data {
-  padding: 20px 0;
+.cartao-vendas-unidade .vendas-total {
+  background: #f0f5ff;
+  border-radius: 8px;
+  padding: 12px;
   text-align: center;
 }
 
+.cartao-vendas-unidade .rotulo-total {
+  display: block;
+  font-size: 14px;
+  color: #595959;
+}
+
+.cartao-vendas-unidade .valor-total {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.cartao-vendas-unidade .lista-vendas-unidade {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cartao-vendas-unidade .item-unidade {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cartao-vendas-unidade .info-unidade {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.cartao-vendas-unidade .posicao {
+  width: 30px;
+  height: 30px;
+  background: #1890ff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-weight: 600;
+}
+
+.cartao-vendas-unidade .detalhes-unidade {
+  flex: 1;
+}
+
+.cartao-vendas-unidade .nome-unidade {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.cartao-vendas-unidade .valores-unidade {
+  text-align: right;
+  min-width: 120px;
+}
+
+.cartao-vendas-unidade .valor-vendas {
+  font-weight: 600;
+}
+
+.cartao-vendas-unidade .contagem-vendas {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+/* Cartão Vendas por Pagamento */
+.cartao-vendas-pagamento .lista-pagamentos {
+  margin-bottom: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cartao-vendas-pagamento .item-pagamento {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cartao-vendas-pagamento .metodo-pagamento {
+  font-weight: 500;
+}
+
+.cartao-vendas-pagamento .valor-total {
+  font-weight: 600;
+}
+
+.cartao-vendas-pagamento .contagem-vendas {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-left: 8px;
+}
+
+.cartao-vendas-pagamento .grafico-pizza-container {
+  height: 250px;
+}
+
+/* Cartão Desempenho de Vendas */
+.cartao-desempenho-vendas {
+  grid-column: span 2;
+}
+
+.cartao-desempenho-vendas .grade-graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+/* Estados vazios */
+.estado-vazio {
+  text-align: center;
+  padding: 24px;
+  color: #bfbfbf;
+}
+
+.estado-vazio i {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.estado-vazio p {
+  margin-bottom: 16px;
+}
+
 /* Responsividade */
-@media (max-width: 768px) {
-  .chart-container h3,
-  .recent-movements-container h2 {
-    font-size: 16px;
+@media (max-width: 992px) {
+  .cartao-informacoes-caixa,
+  .cartao-desempenho-vendas {
+    grid-column: span 1;
   }
 
-  .list-title {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+  .cartao-desempenho-vendas .grade-graficos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grade-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .cartao-informacoes-caixa .resumo-conteudo {
+    grid-template-columns: 1fr;
   }
 }

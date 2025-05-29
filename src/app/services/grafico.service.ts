@@ -5,6 +5,10 @@ import { API_CONFIG } from '../config/api.config';
 import { HttpClient } from '@angular/common/http';
 import { TipoProdutoEstoqueResponse } from '../model/TipoProdutoEstoqueResponse';
 import { MovimentacaoResponse } from '../model/MovimentacaoResponse';
+import { CaixaInfo } from '../model/CaixaInfo';
+import { Venda } from '../model/Venda';
+import { VendasPorFormaPagamentoResponse } from '../model/VendasPorFormaPagamentoResponse';
+import { VendasPorUnidadeResponse } from '../model/VendasPorUnidadeResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +32,24 @@ export class GraficoService {
   getUltimasMovimentacoes(): Observable<MovimentacaoResponse[]> {
     return this.http.get<MovimentacaoResponse[]>(
       `${API_CONFIG.baseUrl}/graficos/ultimas-movimentacoes`
+    );
+  }
+
+  getObterInformacoesCaixa(): Observable<CaixaInfo> {
+    return this.http.get<CaixaInfo>(
+      `${API_CONFIG.baseUrl}/graficos/caixa/info`
+    );
+  }
+
+  getObterVendasPorFormaPagamento(): Observable<VendasPorFormaPagamentoResponse[]> {
+    return this.http.get<VendasPorFormaPagamentoResponse[]>(
+      `${API_CONFIG.baseUrl}/graficos/vendas-por-forma-pagamento`
+    );
+  }
+
+  getObterVendasPorUnidadeResponse(): Observable<VendasPorUnidadeResponse[]> {
+    return this.http.get<VendasPorUnidadeResponse[]>(
+      `${API_CONFIG.baseUrl}/graficos/vendas-por-unidade`
     );
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Unidade } from '../../../model/Unidade';
+import { Perfil } from '../../../model/Perfil';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UnidadeService } from '../../../services/unidade.service';
+import { PerfilService } from '../../../services/perfil.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AlertaService } from '../../../services/alerta.service';
 import { CommonModule } from '@angular/common';
@@ -21,12 +21,9 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { Empresa } from '../../../model/Empresa';
-import { EmpresaService } from '../../../services/empresa.service';
-import { TelefonePipe } from '../../../../pipe';
 
 @Component({
-  selector: 'app-unidade-list',
+  selector: 'app-perfil-list',
     imports: [
     CommonModule,
     FormsModule,
@@ -39,7 +36,6 @@ import { TelefonePipe } from '../../../../pipe';
     NzPaginationModule,
     RouterModule,
     NzTagModule,
-    TelefonePipe,
     NzPopconfirmModule,
     NzSkeletonModule,
     NzModalModule,
@@ -49,12 +45,11 @@ import { TelefonePipe } from '../../../../pipe';
     NzFormModule,
     NzInputModule,
   ],
-  templateUrl:'./unidade-list.component.html',
-  styleUrl: './unidade-list.component.css',
+  templateUrl: './perfil-list.component.html',
+  styleUrl: './perfil-list.component.css',
 })
-export class UnidadeListComponent {
-  unidades: Unidade[] = [];
-  empresas: Empresa[] = [];
+export class PerfilListComponent {
+  perfis: Perfil[] = [];
   filtroForm!: FormGroup;
   carregando = false;
   totalElementos = 0;
@@ -65,9 +60,8 @@ export class UnidadeListComponent {
   nenhumResultadoEncontrado = false;
 
   constructor(
-    private readonly unidadeService: UnidadeService,
+    private readonly perfilService: PerfilService,
     private readonly formBuilder: FormBuilder,
-    private readonly empresaService: EmpresaService,
     private readonly message: NzMessageService,
     public readonly alertaService: AlertaService
   ) {}
@@ -76,38 +70,27 @@ export class UnidadeListComponent {
     this.filtroForm = this.formBuilder.group({
       id: [''],
       nome: [''],
-      telefone: [''],
-      empresa: [null],
+      descricao: [''],
     });
     this.alertaService.limparAlerta();
-    this.buscarTiposProduto();
-    this.carregarEmpresas();
+    this.carregarPerfis();
   }
 
-    private carregarEmpresas(): void {
-    this.empresaService.findAll().subscribe({
-      next: (response) => {
-        this.empresas = response;
-      },
-      error: (ex) => {
-        this.message.error(ex.error.message);
-      },
-    });
-  }
-
-  buscarTiposProduto(): void {
+  carregarPerfis(): void {
     this.carregando = true;
     const params = {
       ...this.filtroForm.value,
       page: this.paginaAtual - 1,
       size: this.itensPorPagina,
       nome: this.filtroForm.get('nome')?.value.trim().toLowerCase() ?? '',
+      descricao:
+        this.filtroForm.get('descricao')?.value.trim().toLowerCase() ?? '',
     };
-    this.unidadeService.buscarPaginado(params).subscribe({
+    this.perfilService.buscarPaginado(params).subscribe({
       next: (response) => {
-        this.unidades = response.content;
+        this.perfis = response.content;
         console.log(response);
-        this.nenhumResultadoEncontrado = this.unidades.length === 0;
+        this.nenhumResultadoEncontrado = this.perfis.length === 0;
         this.totalElementos = response.page.totalElements;
         this.carregando = false;
         if (this.nenhumResultadoEncontrado) {
@@ -132,6 +115,6 @@ export class UnidadeListComponent {
 
   aoMudarPagina(pageIndex: number): void {
     this.paginaAtual = pageIndex;
-    this.buscarTiposProduto();
+    this.carregarPerfis();
   }
 }

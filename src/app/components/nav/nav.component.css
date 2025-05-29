@@ -6,8 +6,9 @@
 }
 
 .app-layout {
-  height: 100vh;
-  overflow-x: hidden; /* Previne rolagem horizontal */
+  height: 100vh; /* Use 100vh para ocupar toda a altura da viewport */
+  display: flex;
+  overflow: hidden; /* Impede qualquer overflow no container principal */
 }
 
 .logo-container {
@@ -25,6 +26,7 @@
   position: relative;
   z-index: 10;
   min-height: 100vh;
+  overflow-y: auto;
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 }
 
@@ -33,6 +35,7 @@
   padding: 20px 24px;
   font-size: 20px;
   cursor: pointer;
+  color:#fff;
   transition: all 0.3s, padding 0s;
 }
 
@@ -75,10 +78,10 @@ nz-header {
 }
 
 .app-header {
-  position: relative;
-  height: 64px;
-  padding: 0;
-  background: #001529;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 9;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 }
 

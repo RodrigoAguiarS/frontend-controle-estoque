@@ -12,33 +12,21 @@
   ></nz-alert>
 
   <div class="container-busca">
-    <h2>Buscar Unidades</h2>
-    <form [formGroup]="filtroForm" (ngSubmit)="buscarTiposProduto()">
+    <h2>Buscar Perfis</h2>
+    <form [formGroup]="filtroForm" (ngSubmit)="carregarPerfis()">
       <input nz-input type="number" placeholder="Número" formControlName="id" />
       <input nz-input placeholder="Nome" formControlName="nome" />
-      <nz-select
-        nzShowSearch
-        nzAllowClear
-        nzPlaceHolder="Selecione o Tipo de Empresa"
-        formControlName="empresa"
-        nzStyle="width: 100%;"
-      >
-        <nz-option
-          *ngFor="let empresa of empresas"
-          [nzValue]="empresa.id"
-          [nzLabel]="empresa.nome"
-        ></nz-option>
-      </nz-select>
+      <input nz-input placeholder="Descrição" formControlName="descricao" />
       <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
         <i nz-icon nzType="search"></i> Buscar
       </button>
     </form>
   </div>
-  <h2>Lista de Unidades</h2>
+  <h2>Lista de Perfis</h2>
   <nz-table
     #tabelaPrincipal
     class="tabela-padrao"
-    [nzData]="empresas"
+    [nzData]="perfis"
     [nzPageSize]="itensPorPagina"
     [nzFrontPagination]="false"
     [nzPageIndex]="paginaAtual"
@@ -51,32 +39,30 @@
       <tr>
         <th scope="col">Número</th>
         <th scope="col">Nome</th>
-        <th scope="col">telefone</th>
-        <th scope="col">Empresa</th>
+        <th scope="col">Descrição</th>
         <th scope="col">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let unidade of unidades">
-        <td>{{ unidade.id }}</td>
-        <td>{{ unidade.nome }}</td>
-        <td>{{ unidade.telefone | telefone }}</td>
-        <td>{{ unidade.empresa.nome }}</td>
+      <tr *ngFor="let perfil of perfis">
+        <td>{{ perfil.id }}</td>
+        <td>{{ perfil.nome }}</td>
+        <td>{{ perfil.descricao }}</td>
         <td>
-          <a [routerLink]="['/unidades/update', unidade.id]">
+          <a [routerLink]="['/perfis/update', perfil.id]">
             <i
               nz-icon
               nzType="edit"
               nzTheme="outline"
-              title="Atualizar Status"
+              title="Atualizar Perfil"
             ></i>
           </a>
-          <a [routerLink]="['/unidades/delete', unidade.id]">
+          <a [routerLink]="['/perfis/delete', perfil.id]">
             <i
               nz-icon
               nzType="delete"
               nzTheme="outline"
-              title="Deletar Tipo"
+              title="Deletar Perfil"
             ></i>
           </a>
         </td>
@@ -84,3 +70,4 @@
     </tbody>
   </nz-table>
 </div>
+

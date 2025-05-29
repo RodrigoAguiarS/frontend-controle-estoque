@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { Unidade } from '../../../model/Unidade';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UnidadeService } from '../../../services/unidade.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { AlertaService } from '../../../services/alerta.service';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -21,13 +22,19 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { Empresa } from '../../../model/Empresa';
-import { EmpresaService } from '../../../services/empresa.service';
+import { Usuario } from '../../../model/Usuario';
+import { UsuarioService } from '../../../services/usuario.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { AlertaService } from '../../../services/alerta.service';
+import { Perfil } from '../../../model/Perfil';
+import { PerfilService } from '../../../services/perfil.service';
+import { UnidadeService } from '../../../services/unidade.service';
+import { Unidade } from '../../../model/Unidade';
 import { TelefonePipe } from '../../../../pipe';
 
 @Component({
-  selector: 'app-unidade-list',
-    imports: [
+  selector: 'app-usuario-list',
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,12 +56,13 @@ import { TelefonePipe } from '../../../../pipe';
     NzFormModule,
     NzInputModule,
   ],
-  templateUrl:'./unidade-list.component.html',
-  styleUrl: './unidade-list.component.css',
+  templateUrl: './usuario-list.component.html',
+  styleUrl: './usuario-list.component.css',
 })
-export class UnidadeListComponent {
+export class UsuarioListComponent {
+  usuarios: Usuario[] = [];
+  perfis: Perfil[] = [];
   unidades: Unidade[] = [];
-  empresas: Empresa[] = [];
   filtroForm!: FormGroup;
   carregando = false;
   totalElementos = 0;
@@ -65,9 +73,10 @@ export class UnidadeListComponent {
   nenhumResultadoEncontrado = false;
 
   constructor(
-    private readonly unidadeService: UnidadeService,
+    private readonly tipoService: UsuarioService,
     private readonly formBuilder: FormBuilder,
-    private readonly empresaService: EmpresaService,
+    private readonly perfilService: PerfilService,
+    private readonly unidadeService: UnidadeService,
     private readonly message: NzMessageService,
     public readonly alertaService: AlertaService
   ) {}
@@ -76,18 +85,21 @@ export class UnidadeListComponent {
     this.filtroForm = this.formBuilder.group({
       id: [''],
       nome: [''],
+      email: [''],
       telefone: [''],
-      empresa: [null],
+      perfil: [null],
+      unidade: [null],
     });
     this.alertaService.limparAlerta();
-    this.buscarTiposProduto();
-    this.carregarEmpresas();
+    this.buscarUsuarios();
+    this.carregarPerfis();
+    this.carregarUnidades();
   }
 
-    private carregarEmpresas(): void {
-    this.empresaService.findAll().subscribe({
-      next: (response) => {
-        this.empresas = response;
+  private carregarPerfis(): void {
+    this.perfilService.findAll().subscribe({
+      next: (perfis) => {
+        this.perfis = perfis;
       },
       error: (ex) => {
         this.message.error(ex.error.message);
@@ -95,19 +107,31 @@ export class UnidadeListComponent {
     });
   }
 
-  buscarTiposProduto(): void {
+  private carregarUnidades(): void {
+    this.unidadeService.findAll().subscribe({
+      next: (unidades) => {
+        this.unidades = unidades;
+      },
+      error: (ex) => {
+        this.message.error(ex.error.message);
+      },
+    });
+  }
+
+  buscarUsuarios(): void {
     this.carregando = true;
     const params = {
       ...this.filtroForm.value,
       page: this.paginaAtual - 1,
       size: this.itensPorPagina,
       nome: this.filtroForm.get('nome')?.value.trim().toLowerCase() ?? '',
+      email: this.filtroForm.get('email')?.value.trim().toLowerCase() ?? '',
     };
-    this.unidadeService.buscarPaginado(params).subscribe({
+    this.tipoService.buscarPaginado(params).subscribe({
       next: (response) => {
-        this.unidades = response.content;
+        this.usuarios = response.content;
         console.log(response);
-        this.nenhumResultadoEncontrado = this.unidades.length === 0;
+        this.nenhumResultadoEncontrado = this.usuarios.length === 0;
         this.totalElementos = response.page.totalElements;
         this.carregando = false;
         if (this.nenhumResultadoEncontrado) {
@@ -132,6 +156,6 @@ export class UnidadeListComponent {
 
   aoMudarPagina(pageIndex: number): void {
     this.paginaAtual = pageIndex;
-    this.buscarTiposProduto();
+    this.buscarUsuarios();
   }
 }

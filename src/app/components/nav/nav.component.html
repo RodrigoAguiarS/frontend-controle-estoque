@@ -9,8 +9,7 @@
   >
     <div class="sidebar-logo">
       <div class="logo-container">
-        <i nz-icon nzType="appstore" nzTheme="outline"></i>
-        <h1>Sistema de Controle de Estoque</h1>
+
       </div>
     </div>
     <ul
@@ -39,6 +38,35 @@
         </ul>
       </li>
 
+      <!-- PERFIL -->
+      <li nz-submenu nzTitle="Perfil" nzIcon="profile">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/perfis/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/perfis/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
+      <!-- USUARIO -->
+      <li nz-submenu nzTitle="Usuário" nzIcon="user">
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/usuarios/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/usuarios/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
+      <!-- PRODUTO -->
       <li nz-submenu nzTitle="Produto" nzIcon="shopping-cart">
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/produtos/create">

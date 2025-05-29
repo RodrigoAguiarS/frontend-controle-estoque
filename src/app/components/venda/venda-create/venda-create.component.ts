@@ -253,6 +253,7 @@ export class VendaCreateComponent {
         error: (ex) => {
           this.mensagemService.error(ex.error.message);
           this.resetForm();
+          this.processandoVenda = false;
         },
         complete: () => {
           this.processandoVenda = false;

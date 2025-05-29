@@ -36,6 +36,24 @@ export const routes: Routes = [
         data: { roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR] },
       },
       {
+        path: 'perfis',
+        loadChildren: () =>
+          import('./components/perfil/produto.routes').then(
+            (m) => m.perfilRoutes
+          ),
+        canActivate: [RoleGuard],
+        data: { roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR] },
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () =>
+          import('./components/usuario/usuario.routes').then(
+            (m) => m.usuarioRoutes
+          ),
+        canActivate: [RoleGuard],
+        data: { roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR] },
+      },
+      {
         path: 'vendas',
         loadChildren: () =>
           import('./components/venda/venda.routes').then((m) => m.vendasRoutes),
@@ -54,9 +72,9 @@ export const routes: Routes = [
       {
         path: 'unidades',
         loadChildren: () =>
-          import(
-            './components/unidade/unidade.routes'
-          ).then((m) => m.unidadeRoutes),
+          import('./components/unidade/unidade.routes').then(
+            (m) => m.unidadeRoutes
+          ),
         canActivate: [RoleGuard],
         data: { roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR] },
       },
