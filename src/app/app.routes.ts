@@ -45,6 +45,15 @@ export const routes: Routes = [
         data: { roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR] },
       },
       {
+        path: 'caixas',
+        loadChildren: () =>
+          import('./components/caixa/caixa.routes').then((m) => m.caixaRoutes),
+        canActivate: [RoleGuard],
+        data: {
+          roles: [ACESSO.SUPERADM, ACESSO.ADMINISTRADOR, ACESSO.OPERADOR],
+        },
+      },
+      {
         path: 'usuarios',
         loadChildren: () =>
           import('./components/usuario/usuario.routes').then(

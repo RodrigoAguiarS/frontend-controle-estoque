@@ -54,41 +54,21 @@ export class HomeComponent implements OnInit {
     id: 0,
     valorAtual: 0,
     valorEntrada: 0,
+    valorInicial: 0,
     valorSaida: 0,
     dataAbertura: '',
     ativo: false,
   };
   vendasPorUnidades!: VendasPorUnidadeResponse[];
   vendasPorFormasDePagamento!: VendasPorFormaPagamentoResponse[];
-
-  @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
+  produtosLucroResponse!: ProdutoLucroResponse[];
+  tipoProdutoEstoqueResponse!: TipoProdutoEstoqueResponse[];
 
   carregando = false;
   ultimasMovimentacoes: MovimentacaoResponse[] = [];
   carregandoMovimentacoes = false;
-  public revenueChartOptions = {
-    responsive: true,
-  };
-  public revenueChartLabels: string[] = [];
-  public revenueChartType: ChartType = 'line';
-  public revenueChartLegend = true;
-  public revenueChartData: {
-    data: number[];
-    label: string;
-  }[] = [];
 
   // Configurações para o gráfico de estoque por tipo
-  public stockChartOptions = {
-    responsive: true,
-  };
-  public stockChartLabels: string[] = [];
-  public stockChartType: ChartType = 'bar';
-  public stockChartLegend = true;
-  public stockChartData: {
-    data: number[];
-    label: string;
-    backgroundColor?: string[];
-  }[] = [];
 
   public paymentChartOptions = {
     responsive: true,
@@ -116,50 +96,52 @@ export class HomeComponent implements OnInit {
     this.carregarVendasPorFormaPagamentoResponse();
   }
 
-  private carregarDadosFaturamento(): void {
+  public carregarDadosFaturamento(): void {
     this.graficoService.getFaturamentoPorProduto().subscribe({
       next: (data: ProdutoLucroResponse[]) => {
-        this.revenueChartLabels = data.map((item) => item.descricaoProduto);
-        this.revenueChartData = [
-          {
-            data: data.map((item) => item.quantidadeSaida),
-            label: 'Quantidade Vendida',
-          },
-          {
-            data: data.map((item) => item.totalLucro),
-            label: 'Margem de Lucro',
-          },
-        ];
-        this.carregando = false;
+        this.produtosLucroResponse = data;
       },
       error: () => {
         this.message.error('Erro ao carregar dados.');
         this.carregando = false;
       },
-      complete: () => {},
+      complete: () => {
+        this.carregando = false;
+      },
     });
   }
 
-  private carregarDadosEstoque(): void {
+  calcularTotalEstoque(): number {
+    if (
+      !this.tipoProdutoEstoqueResponse ||
+      this.tipoProdutoEstoqueResponse.length === 0
+    )
+      return 0;
+    return this.tipoProdutoEstoqueResponse.reduce(
+      (total, item) => total + item.quantidadeDisponivel,
+      0
+    );
+  }
+
+  calcularPorcentagemUtilizacao(produto: TipoProdutoEstoqueResponse): number {
+    const total = produto.quantidadeDisponivel + produto.quantidadeSaida;
+    return total > 0 ? Math.round((produto.quantidadeSaida / total) * 100) : 0;
+  }
+
+  public carregarDadosEstoque(): void {
     this.graficoService.getEstoquePorTipoProduto().subscribe({
       next: (data: TipoProdutoEstoqueResponse[]) => {
-        this.stockChartLabels = data.map((item) => item.tipoProduto);
-        this.stockChartData = [
-          {
-            data: data.map((item) => item.quantidadeSaida),
-            label: 'Saídas',
-            backgroundColor: this.gerarCores(data.length, 0.7),
-          },
-          {
-            data: data.map((item) => item.quantidadeDisponivel),
-            label: 'Disponível em Estoque',
-            backgroundColor: this.gerarCores(data.length, 0.5, 30),
-          },
-        ];
-        this.carregando = false;
+        this.tipoProdutoEstoqueResponse = data;
+        console.log(
+          'Dados de estoque por tipo de produto:',
+          this.tipoProdutoEstoqueResponse
+        );
       },
       error: () => {
         this.message.error('Erro ao carregar dados de estoque.');
+        this.carregando = false;
+      },
+      complete: () => {
         this.carregando = false;
       },
     });
@@ -177,20 +159,6 @@ export class HomeComponent implements OnInit {
     '#a0d911',
     '#1890ff',
   ];
-
-  private carregarUltimasMovimentacoes(): void {
-    this.carregandoMovimentacoes = true;
-    this.graficoService.getUltimasMovimentacoes().subscribe({
-      next: (data: MovimentacaoResponse[]) => {
-        this.ultimasMovimentacoes = data;
-        this.carregandoMovimentacoes = false;
-      },
-      error: () => {
-        this.message.error('Erro ao carregar últimas movimentações.');
-        this.carregandoMovimentacoes = false;
-      },
-    });
-  }
 
   carregarDadosDoCaixa() {
     this.carregando = true;
@@ -248,7 +216,7 @@ export class HomeComponent implements OnInit {
 
         this.carregando = false;
       },
-      error: (erro) => {
+      error: () => {
         this.message.error('Falha ao carregar dados de pagamentos');
         this.carregando = false;
       },
@@ -278,10 +246,28 @@ export class HomeComponent implements OnInit {
   }
 
   calcularTotalVendas(): number {
+    if (!this.vendasPorUnidades || !this.vendasPorUnidades.length) {
+      return 0;
+    }
+
     return this.vendasPorUnidades.reduce(
       (total, unidade) => total + unidade.valorTotal,
       0
     );
+  }
+
+  calcularTotalFaturamento(): number {
+    if (!this.produtosLucroResponse || this.produtosLucroResponse.length === 0)
+      return 0;
+    return this.produtosLucroResponse.reduce(
+      (total, produto) => total + produto.totalLucro,
+      0
+    );
+  }
+
+  calcularPorcentagemFaturamento(valor: number): number {
+    const total = this.calcularTotalFaturamento();
+    return total > 0 ? Math.round((valor / total) * 100) : 0;
   }
 
   calcularPorcentagem(valor: number): number {
@@ -294,16 +280,19 @@ export class HomeComponent implements OnInit {
     return this.unidadeCores[index % this.unidadeCores.length];
   }
 
-  private gerarCores(
-    quantidade: number,
-    opacidade: number,
-    matizBase: number = 200
-  ): string[] {
-    const cores: string[] = [];
-    for (let i = 0; i < quantidade; i++) {
-      const hue = (matizBase + i * 30) % 360;
-      cores.push(`hsla(${hue}, 70%, 60%, ${opacidade})`);
-    }
-    return cores;
+  getProductColor(index: number): string {
+    const colors = [
+      '#1890ff',
+      '#52c41a',
+      '#722ed1',
+      '#faad14',
+      '#eb2f96',
+      '#13c2c2',
+      '#fa8c16',
+      '#a0d911',
+      '#eb2f96',
+      '#f5222d',
+    ];
+    return colors[index % colors.length];
   }
 }

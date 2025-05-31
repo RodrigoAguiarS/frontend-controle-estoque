@@ -23,6 +23,7 @@ export class VendaService {
     size: number;
     sort?: string;
     id?: number;
+    caixa: number;
     formaDePagamentoId?: number;
     valorMinimo?: number;
     valorMaximo?: number;
@@ -38,6 +39,10 @@ export class VendaService {
 
     if (params.id) {
       url += `&id=${params.id}`;
+    }
+
+    if (params.caixa) {
+      url += `&caixa=${params.caixa}`;
     }
 
     if (params.formaDePagamentoId) {

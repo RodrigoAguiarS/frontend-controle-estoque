@@ -1,0 +1,226 @@
+<!-- caixa.component.html -->
+<div class="container-principal">
+  <div class="grade-dashboard">
+    <!-- Cartão de Informações do Caixa -->
+    <nz-card class="cartao-informacoes-caixa" [nzBordered]="false">
+      <div class="resumo-conteudo">
+        <!-- Valor Atual -->
+        <div class="item-info">
+          <div class="icone-wrapper caixa">
+            <i nz-icon nzType="wallet" nzTheme="outline"></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Valor Atual</span>
+            <span class="valor">{{
+              caixaInfo.valorAtual | currency : "BRL"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="item-info">
+          <div class="icone-wrapper caixa">
+            <i nz-icon nzType="wallet" nzTheme="outline"></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Valor Inicial</span>
+            <span class="valor">{{
+              caixaInfo.valorInicial | currency : "BRL"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="item-info">
+          <div class="icone-wrapper caixa">
+            <i nz-icon nzType="arrow-down" nzTheme="outline"></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Valor Entrada</span>
+            <span class="valor">{{
+              caixaInfo.valorEntrada | currency : "BRL"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="item-info">
+          <div class="icone-wrapper caixa">
+            <i nz-icon nzType="arrow-up" nzTheme="outline"></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Valor Saída</span>
+            <span class="valor">{{
+              caixaInfo.valorSaida | currency : "BRL"
+            }}</span>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="item-info">
+          <div
+            class="icone-wrapper status"
+            [ngClass]="{ ativo: caixaInfo.ativo, inativo: !caixaInfo.ativo }"
+          >
+            <i
+              nz-icon
+              [nzType]="caixaInfo.ativo ? 'check-circle' : 'close-circle'"
+              nzTheme="outline"
+            ></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Status</span>
+            <span
+              class="valor"
+              [ngClass]="{
+                'status-ativo': caixaInfo.ativo,
+                'status-inativo': !caixaInfo.ativo
+              }"
+            >
+              {{ caixaInfo.ativo ? "Aberto" : "Fechado" }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Data de Abertura -->
+        <div class="item-info">
+          <div class="icone-wrapper calendario">
+            <i nz-icon nzType="calendar" nzTheme="outline"></i>
+          </div>
+          <div class="detalhes-info">
+            <span class="rotulo">Data de Abertura</span>
+            <span class="valor">
+              {{
+                caixaInfo.dataAbertura
+                  ? (caixaInfo.dataAbertura | date : "dd/MM/yyyy HH:mm")
+                  : "—"
+              }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ações do Caixa -->
+      <div class="caixa-actions">
+        <button
+          nz-button
+          nzType="primary"
+          (click)="abrirCaixa()"
+          [disabled]="caixaInfo.ativo"
+        >
+          Abrir Caixa
+        </button>
+        <button
+          nz-button
+          nzType="default"
+          (click)="fecharCaixa()"
+          [disabled]="!caixaInfo.ativo"
+        >
+          Fechar Caixa
+        </button>
+        <button
+          nz-button
+          nzType="default"
+          (click)="retirarValor()"
+          [disabled]="!caixaInfo.ativo"
+        >
+          Retirar Valor
+        </button>
+      </div>
+    </nz-card>
+
+    <!-- Vendas Relacionadas -->
+    <div class="vendas-relacionadas" *ngIf="caixaInfo.id">
+
+      <div
+        class="vendas-table-wrapper"
+        *ngIf="vendasCaixa.length > 0; else semVendas"
+      >
+        <div class="resumo-vendas">
+          <div>
+            <span class="contagem-vendas"
+              >{{ totalElementos }} vendas realizadas</span
+            >
+          </div>
+          <div class="valor-total">
+            {{ calcularTotalVendas() | currency : "BRL" }}
+          </div>
+        </div>
+
+        <nz-table
+          #basicTable
+          [nzData]="vendasCaixa"
+          [nzPageSize]="itensPorPagina"
+          [nzFrontPagination]="false"
+          [nzPageIndex]="paginaAtual"
+          [nzLoading]="carregandoVendas"
+          [nzBordered]="true"
+          [nzTotal]="totalElementos"
+          [nzShowTotal]="totalTemplate"
+          (nzPageIndexChange)="aoMudarPagina($event)"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Código</th>
+              <th scope="col">Data Venda</th>
+              <th scope="col">Valor Total</th>
+              <th scope="col">Forma Pagamento</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let venda of vendasCaixa">
+              <td>{{ venda.id }}</td>
+              <td>{{ venda.criadoEm | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ venda.valorTotal | currency : "BRL" }}</td>
+              <td>{{ venda.formaDePagamento.nome }}</td>
+              <td>
+                <nz-tag [nzColor]="venda.ativo ? 'green' : 'red'">
+                  {{ venda.ativo ? "Pago" : "Estornado" }}
+                </nz-tag>
+              </td>
+              <td>
+                <a (click)="gerarCupomVenda(venda.id)">
+                  <i
+                    nz-icon
+                    nzType="printer"
+                    nzTheme="outline"
+                    title="Imprimir cupom de venda"
+                  ></i>
+                </a>
+                <a (click)="abrirModalVenda(venda)">
+                  <i
+                    nz-icon
+                    nzType="file"
+                    nzTheme="outline"
+                    title="Abrir Detalhes da venda"
+                  ></i>
+                </a>
+                <a *ngIf="venda.ativo" (click)="cancelarVenda(venda.id)">
+                  <i
+                    nz-icon
+                    nzType="close"
+                    nzTheme="outline"
+                    title="Cancelar venda"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <ng-template #totalTemplate let-total>
+          Total: {{ total }} item(ns)
+        </ng-template>
+      </div>
+
+      <ng-template #semVendas>
+        <div class="estado-vazio">
+          <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
+          <p>Nenhuma venda registrada para este caixa</p>
+          <button nz-button nzType="primary" routerLink="/vendas/create">
+            Realizar Nova Venda
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

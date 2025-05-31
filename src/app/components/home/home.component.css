@@ -1,13 +1,20 @@
 /* caixa.component.css */
 .container-principal {
-  padding: 16px;
-  height: calc(90vh - 64px); /* Ajusta para altura total da tela */
+  padding: 1rem;
+  height: calc(90vh - 64px);
   overflow-y: auto;
+  overflow-x: hidden; /* Impede scroll horizontal */
+  transition: all 0.3s;
 }
+
+.card-head-title{
+  text-align: center;
+}
+
 
 .grade-dashboard {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Reduzido para 300px */
   gap: 16px;
 }
 
@@ -28,7 +35,7 @@
   padding: 12px;
   background-color: #f8f9fa;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .cartao-informacoes-caixa .icone-wrapper {
@@ -46,190 +53,322 @@
   background-color: #e6f7ff;
   color: #1890ff;
 }
-
 .cartao-informacoes-caixa .icone-wrapper.entrada {
   background-color: #f6ffed;
   color: #52c41a;
 }
-
 .cartao-informacoes-caixa .icone-wrapper.saida {
   background-color: #fff2e8;
   color: #fa541c;
 }
-
 .cartao-informacoes-caixa .icone-wrapper.calendario {
   background-color: #f9f0ff;
   color: #722ed1;
 }
-
 .cartao-informacoes-caixa .icone-wrapper.status.ativo {
   background-color: #f6ffed;
   color: #52c41a;
 }
-
 .cartao-informacoes-caixa .icone-wrapper.status.inativo {
   background-color: #fff1f0;
   color: #f5222d;
 }
-
 .cartao-informacoes-caixa .rotulo {
   display: block;
   font-size: 12px;
   color: #595959;
 }
-
 .cartao-informacoes-caixa .valor {
   font-size: 16px;
   font-weight: 500;
 }
-
 .cartao-informacoes-caixa .status-ativo {
   color: #52c41a;
 }
-
 .cartao-informacoes-caixa .status-inativo {
   color: #f5222d;
 }
 
-/* Cartão Vendas por Unidade */
+/* ==========================
+   CARTÃO VENDAS POR UNIDADE
+========================== */
 .cartao-vendas-unidade .vendas-cabecalho {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
-
 .cartao-vendas-unidade .vendas-total {
   background: #f0f5ff;
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 0.5rem;
+  display: grid;
+  padding: 0.75rem;
   text-align: center;
 }
-
 .cartao-vendas-unidade .rotulo-total {
-  display: block;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #595959;
 }
-
 .cartao-vendas-unidade .valor-total {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #1890ff;
 }
-
 .cartao-vendas-unidade .lista-vendas-unidade {
-  max-height: 300px;
+  max-height: 18.75rem;
   overflow-y: auto;
 }
-
 .cartao-vendas-unidade .item-unidade {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #f0f0f0;
 }
-
 .cartao-vendas-unidade .info-unidade {
   display: flex;
   align-items: center;
   flex: 1;
 }
-
 .cartao-vendas-unidade .posicao {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
   background: #1890ff;
-  color: white;
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-right: 0.75rem;
   font-weight: 600;
 }
-
 .cartao-vendas-unidade .detalhes-unidade {
   flex: 1;
 }
-
-.cartao-vendas-unidade .nome-unidade {
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
 .cartao-vendas-unidade .valores-unidade {
-  text-align: right;
-  min-width: 120px;
+  min-width: unset;
+  flex-shrink: 0;
 }
-
 .cartao-vendas-unidade .valor-vendas {
   font-weight: 600;
 }
-
 .cartao-vendas-unidade .contagem-vendas {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #8c8c8c;
 }
 
-/* Cartão Vendas por Pagamento */
+/* ==========================
+   CARTÃO VENDAS POR PAGAMENTO
+========================== */
 .cartao-vendas-pagamento .lista-pagamentos {
-  margin-bottom: 16px;
-  max-height: 200px;
+  margin-bottom: 1rem;
+  max-height: 12.5rem;
   overflow-y: auto;
 }
-
 .cartao-vendas-pagamento .item-pagamento {
   display: flex;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #f0f0f0;
 }
-
 .cartao-vendas-pagamento .metodo-pagamento {
   font-weight: 500;
 }
-
 .cartao-vendas-pagamento .valor-total {
   font-weight: 600;
 }
-
 .cartao-vendas-pagamento .contagem-vendas {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #8c8c8c;
-  margin-left: 8px;
+  margin-left: 0.5rem;
 }
-
 .cartao-vendas-pagamento .grafico-pizza-container {
-  height: 250px;
+  height: 5.625rem;
 }
 
-/* Cartão Desempenho de Vendas */
-.cartao-desempenho-vendas {
-  grid-column: span 2;
+/* ==========================
+   CARTÃO FATURAMENTO PRODUTO
+========================== */
+.cartao-faturamento-produto {
+  grid-column: span 1;
 }
-
-.cartao-desempenho-vendas .grade-graficos {
+.cartao-faturamento-produto .vendas-total {
+  background: #f0f7fa;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 16px;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+.cartao-faturamento-produto .grafico-container {
+  margin-top: 1rem;
+}
+.cartao-faturamento-produto .lista-produtos {
+  margin-top: 1rem;
+}
+.cartao-faturamento-produto .item-produto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+.cartao-faturamento-produto .item-produto:hover {
+  background-color: #f5f7fa;
+}
+.cartao-faturamento-produto .info-produto {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.cartao-faturamento-produto .detalhes-produto {
+  max-width: none;
+}
+.cartao-faturamento-produto .nome-produto {
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cartao-faturamento-produto .valores-produto {
+  text-align: right;
+}
+.cartao-faturamento-produto .valor-total {
+  font-weight: 600;
+  color: #262626;
+  font-size: 1rem;
+}
+.cartao-faturamento-produto .contagem-vendas {
+  font-size: 0.75rem;
+  color: #8c8c8c;
+  margin-top: 0.25rem;
 }
 
-/* Estados vazios */
+.cartao-faturamento-produto .posicao {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #1890ff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  margin-right: 0.75rem;
+}
+
+/* ==========================
+   CARTÃO ESTOQUE DE PRODUTOS
+========================== */
+.cartao-estoque {
+  grid-column: span 1;
+}
+.cartao-estoque .estoque-cabecalho {
+  margin-bottom: 1rem;
+}
+.cartao-estoque .estoque-total {
+  background: #f0f7fa;
+  display: grid;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.cartao-estoque .rotulo-total {
+  font-size: 0.875rem;
+  color: #595959;
+}
+.cartao-estoque .valor-total {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #13c2c2;
+}
+.cartao-estoque .lista-tipos-produtos {
+  max-height: 18.75rem;
+  overflow-y: auto;
+}
+.cartao-estoque .tipo-produto-item {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+.cartao-estoque .tipo-produto-item:hover {
+  background-color: #f5f7fa;
+}
+.cartao-estoque .tipo-produto-item:last-child {
+  border-bottom: none;
+}
+.cartao-estoque .info-tipo-produto {
+  display: flex;
+  align-items: flex-start;
+}
+
+.cartao-estoque .icone-wrapper.estoque {
+  background: #e6fffb;
+  color: #13c2c2;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  font-size: 1.125rem;
+}
+
+.cartao-estoque .detalhes-tipo-produto {
+  flex: 1;
+}
+.cartao-estoque .nome-tipo-produto {
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 0.5rem;
+}
+.cartao-estoque .estatisticas-tipo-produto {
+  width: 100%;
+}
+.cartao-estoque .quantidade-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.cartao-estoque .quantidade-disponivel,
+.cartao-estoque .quantidade-saida {
+  font-size: 0.75rem;
+  color: #595959;
+  display: flex;
+  align-items: center;
+}
+.cartao-estoque .quantidade-disponivel i,
+.cartao-estoque .quantidade-saida i {
+  margin-right: 0.25rem;
+  font-size: 0.875rem;
+}
+.cartao-estoque .quantidade-disponivel i {
+  color: #52c41a;
+}
+.cartao-estoque .quantidade-saida i {
+  color: #1890ff;
+}
+
+/* ==========================
+   ESTADOS VAZIOS
+========================== */
 .estado-vazio {
   text-align: center;
-  padding: 24px;
+  padding: 1.5rem;
   color: #bfbfbf;
 }
-
 .estado-vazio i {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
-
 .estado-vazio p {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
-/* Responsividade */
+/* ==========================
+   RESPONSIVIDADE
+========================== */
 @media (max-width: 992px) {
   .cartao-informacoes-caixa,
   .cartao-desempenho-vendas {
@@ -238,6 +377,12 @@
 
   .cartao-desempenho-vendas .grade-graficos {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-principal {
+    padding: 0.5rem;
   }
 }
 

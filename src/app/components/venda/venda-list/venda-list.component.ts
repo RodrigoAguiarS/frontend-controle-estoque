@@ -117,6 +117,7 @@ export class VendaListComponent {
       page: this.paginaAtual - 1,
       size: this.itensPorPagina,
       sort: 'id',
+      caixa: 0, // Assuming 'caixa' is not used in this context
       id: this.filtroForm.get('id')?.value,
       formaDePagamentoId: this.filtroForm.get('formaDePagamentoId')?.value,
       valorMinimo: this.filtroForm.get('valorMinimo')?.value,

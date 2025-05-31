@@ -1,10 +1,13 @@
-<!-- caixa.component.html -->
 <div class="container-principal">
   <nz-spin [nzSpinning]="carregando" nzTip="Carregando...">
     <!-- Grade de cartões -->
     <div class="grade-dashboard">
       <!-- Card de Informações do Caixa -->
-      <nz-card class="cartao-informacoes-caixa" [nzBordered]="false" nzTitle="Informações do Caixa">
+      <nz-card
+        class="cartao-informacoes-caixa"
+        [nzBordered]="false"
+        nzTitle="Informações do Caixa"
+      >
         <div class="resumo-conteudo">
           <div class="item-info">
             <div class="icone-wrapper caixa">
@@ -12,7 +15,9 @@
             </div>
             <div class="detalhes-info">
               <span class="rotulo">Valor em Caixa</span>
-              <span class="valor">{{ caixaInfo.valorAtual | currency : "BRL" }}</span>
+              <span class="valor">{{
+                caixaInfo.valorAtual | currency : "BRL"
+              }}</span>
             </div>
           </div>
 
@@ -22,7 +27,9 @@
             </div>
             <div class="detalhes-info">
               <span class="rotulo">Entradas</span>
-              <span class="valor">{{ caixaInfo.valorEntrada | currency : "BRL" }}</span>
+              <span class="valor">{{
+                caixaInfo.valorEntrada | currency : "BRL"
+              }}</span>
             </div>
           </div>
 
@@ -32,7 +39,9 @@
             </div>
             <div class="detalhes-info">
               <span class="rotulo">Saídas</span>
-              <span class="valor">{{ caixaInfo.valorSaida | currency : "BRL" }}</span>
+              <span class="valor">{{
+                caixaInfo.valorSaida | currency : "BRL"
+              }}</span>
             </div>
           </div>
 
@@ -42,17 +51,32 @@
             </div>
             <div class="detalhes-info">
               <span class="rotulo">Data de Abertura</span>
-              <span class="valor">{{ caixaInfo.dataAbertura | date : "dd/MM/yyyy HH:mm" }}</span>
+              <span class="valor">{{
+                caixaInfo.dataAbertura | date : "dd/MM/yyyy HH:mm"
+              }}</span>
             </div>
           </div>
 
           <div class="item-info">
-            <div class="icone-wrapper status" [ngClass]="{ ativo: caixaInfo.ativo, inativo: !caixaInfo.ativo }">
-              <i nz-icon [nzType]="caixaInfo.ativo ? 'check-circle' : 'close-circle'" nzTheme="outline"></i>
+            <div
+              class="icone-wrapper status"
+              [ngClass]="{ ativo: caixaInfo.ativo, inativo: !caixaInfo.ativo }"
+            >
+              <i
+                nz-icon
+                [nzType]="caixaInfo.ativo ? 'check-circle' : 'close-circle'"
+                nzTheme="outline"
+              ></i>
             </div>
             <div class="detalhes-info">
               <span class="rotulo">Status do Caixa</span>
-              <span class="valor" [ngClass]="{'status-ativo': caixaInfo.ativo, 'status-inativo': !caixaInfo.ativo}">
+              <span
+                class="valor"
+                [ngClass]="{
+                  'status-ativo': caixaInfo.ativo,
+                  'status-inativo': !caixaInfo.ativo
+                }"
+              >
                 {{ caixaInfo.ativo ? "Aberto" : "Fechado" }}
               </span>
             </div>
@@ -61,16 +85,28 @@
       </nz-card>
 
       <!-- Card de Vendas por Unidade -->
-      <nz-card class="cartao-vendas-unidade" [nzBordered]="false" nzTitle="Vendas por Unidade">
+      <nz-card
+        class="cartao-vendas-unidade"
+        [nzBordered]="false"
+        nzTitle="Vendas por Unidade"
+      >
         <div class="vendas-cabecalho">
           <div class="vendas-total">
             <span class="rotulo-total">Vendas Totais</span>
-            <span class="valor-total">{{ calcularTotalVendas() | currency : "BRL" }}</span>
+            <span class="valor-total">{{
+              calcularTotalVendas() | currency : "BRL"
+            }}</span>
           </div>
         </div>
 
-        <div class="lista-vendas-unidade" *ngIf="vendasPorUnidades?.length; else vazio">
-          <div class="item-unidade" *ngFor="let venda of vendasPorUnidades; let i = index">
+        <div
+          class="lista-vendas-unidade"
+          *ngIf="vendasPorUnidades?.length; else vazio"
+        >
+          <div
+            class="item-unidade"
+            *ngFor="let venda of vendasPorUnidades; let i = index"
+          >
             <div class="info-unidade">
               <div class="posicao">{{ i + 1 }}</div>
               <div class="detalhes-unidade">
@@ -83,7 +119,9 @@
               </div>
             </div>
             <div class="valores-unidade">
-              <div class="valor-vendas">{{ venda.valorTotal | currency : "BRL" }}</div>
+              <div class="valor-vendas">
+                {{ venda.valorTotal | currency : "BRL" }}
+              </div>
               <div class="contagem-vendas">{{ venda.totalVendas }} vendas</div>
             </div>
           </div>
@@ -93,22 +131,46 @@
           <div class="estado-vazio">
             <i nz-icon nzType="shopping-cart" nzTheme="outline"></i>
             <p>Nenhum dado de vendas disponível</p>
-            <button nz-button nzType="primary" (click)="carregarVendasPorUnidade()">Atualizar dados</button>
+            <button
+              nz-button
+              nzType="primary"
+              (click)="carregarVendasPorUnidade()"
+            >
+              Atualizar dados
+            </button>
           </div>
         </ng-template>
       </nz-card>
 
       <!-- Card de Vendas por Forma de Pagamento -->
-      <nz-card class="cartao-vendas-pagamento" [nzBordered]="false" nzTitle="Vendas por Forma de Pagamento">
-        <div *ngIf="vendasPorFormasDePagamento && vendasPorFormasDePagamento.length > 0; else emptyPaymentState">
+      <nz-card
+        class="cartao-vendas-pagamento"
+        [nzBordered]="false"
+        nzTitle="Vendas por Forma de Pagamento"
+      >
+        <div
+          *ngIf="
+            vendasPorFormasDePagamento && vendasPorFormasDePagamento.length > 0;
+            else emptyPaymentState
+          "
+        >
           <div class="lista-pagamentos">
-            <div class="item-pagamento" *ngFor="let pagamento of vendasPorFormasDePagamento">
+            <div
+              class="item-pagamento"
+              *ngFor="let pagamento of vendasPorFormasDePagamento"
+            >
               <div class="info-pagamento">
-                <span class="metodo-pagamento">{{ pagamento.formaPagamento }}</span>
+                <span class="metodo-pagamento">{{
+                  pagamento.formaPagamento
+                }}</span>
               </div>
               <div class="valores-pagamento">
-                <span class="valor-total">{{ pagamento.valorTotal | currency : "BRL" }}</span>
-                <span class="contagem-vendas">({{ pagamento.totalVendas }} vendas)</span>
+                <span class="valor-total">{{
+                  pagamento.valorTotal | currency : "BRL"
+                }}</span>
+                <span class="contagem-vendas"
+                  >({{ pagamento.totalVendas }} vendas)</span
+                >
               </div>
             </div>
           </div>
@@ -133,27 +195,130 @@
         </ng-template>
       </nz-card>
 
-      <!-- Card de Desempenho de Vendas -->
-      <nz-card class="cartao-desempenho-vendas" [nzBordered]="false" nzTitle="Desempenho de Vendas">
-        <div class="grade-graficos">
-          <app-chart
-            title="Produtos com Maior Faturamento"
-            [datasets]="revenueChartData"
-            [labels]="revenueChartLabels"
-            [type]="revenueChartType"
-            [legend]="revenueChartLegend"
-            [options]="revenueChartOptions"
-          ></app-chart>
-
-          <app-chart
-            title="Estoque por Tipo de Produto"
-            [datasets]="stockChartData"
-            [labels]="stockChartLabels"
-            [type]="stockChartType"
-            [legend]="stockChartLegend"
-            [options]="stockChartOptions"
-          ></app-chart>
+      <!-- Card de Produtos com Maior Faturamento -->
+      <nz-card
+        [nzBordered]="false"
+        class="cartao-faturamento-produto"
+        nzTitle="Produtos com Maior Faturamento"
+      >
+        <div class="vendas-cabecalho">
+          <div class="vendas-total">
+            <span class="rotulo-total">Faturamento Total </span>
+            <span class="valor-total">{{
+              calcularTotalFaturamento() | currency : "BRL"
+            }}</span>
+          </div>
         </div>
+
+        <div
+          class="lista-produtos"
+          *ngIf="produtosLucroResponse?.length; else semProdutos"
+        >
+          <div
+            class="item-produto"
+            *ngFor="let produto of produtosLucroResponse; let i = index"
+          >
+            <div class="info-produto">
+              <div class="posicao">{{ i + 1 }}</div>
+              <div class="detalhes-produto">
+                <div class="nome-produto">{{ produto.descricaoProduto }}</div>
+                <nz-progress
+                  [nzPercent]="
+                    calcularPorcentagemFaturamento(produto.totalLucro)
+                  "
+                  [nzShowInfo]="false"
+                  [nzStrokeColor]="getUnitColor(i)"
+                ></nz-progress>
+              </div>
+            </div>
+            <div class="valores-produto">
+              <div class="valor-total">
+                {{ produto.totalLucro | currency : "BRL" }}
+              </div>
+              <div class="contagem-vendas">
+                {{ produto.quantidadeSaida }} vendidos
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #semProdutos>
+          <div class="estado-vazio">
+            <i nz-icon nzType="shopping" nzTheme="outline"></i>
+            <p>Nenhum dado de faturamento disponível</p>
+            <button
+              nz-button
+              nzType="primary"
+              (click)="carregarDadosFaturamento()"
+            >
+              Atualizar dados
+            </button>
+          </div>
+        </ng-template>
+      </nz-card>
+
+      <!-- Card de Produtos em Estoque -->
+      <nz-card
+        class="cartao-estoque"
+        [nzBordered]="false"
+        nzTitle="Tipos de Produtos em Estoque"
+      >
+        <div class="estoque-cabecalho">
+          <div class="estoque-total">
+            <span class="rotulo-total">Total de Produtos </span>
+            <span class="valor-total">{{ calcularTotalEstoque() }}</span>
+          </div>
+        </div>
+
+        <div
+          class="lista-tipos-produtos"
+          *ngIf="tipoProdutoEstoqueResponse?.length; else semEstoque"
+        >
+          <div
+            class="tipo-produto-item"
+            *ngFor="let produto of tipoProdutoEstoqueResponse; let i = index"
+          >
+            <div class="info-tipo-produto">
+              <div class="icone-wrapper estoque">
+                <i nz-icon nzType="inbox" nzTheme="outline"></i>
+              </div>
+              <div class="detalhes-tipo-produto">
+                <div class="nome-tipo-produto">{{ produto.tipoProduto }}</div>
+                <div class="estatisticas-tipo-produto">
+                  <div class="quantidade-info">
+                    <span class="quantidade-disponivel">
+                      <i nz-icon nzType="check-circle" nzTheme="outline"></i>
+                      {{ produto.quantidadeDisponivel }} disponíveis
+                    </span>
+                    <span class="quantidade-saida">
+                      <i nz-icon nzType="swap-right" nzTheme="outline"></i>
+                      {{ produto.quantidadeSaida }} saídas
+                    </span>
+                  </div>
+                  <nz-progress
+                    [nzPercent]="calcularPorcentagemUtilizacao(produto)"
+                    [nzShowInfo]="false"
+                    [nzStrokeColor]="getUnitColor(i)"
+                  ></nz-progress>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #semEstoque>
+          <div class="estado-vazio">
+            <i nz-icon nzType="inbox" nzTheme="outline"></i>
+            <p>Nenhum dado de estoque disponível</p>
+            <button
+              nz-button
+              nzType="primary"
+              (click)="carregarDadosEstoque()"
+            >
+              Atualizar dados
+            </button>
+          </div>
+        </ng-template>
       </nz-card>
     </div>
   </nz-spin>

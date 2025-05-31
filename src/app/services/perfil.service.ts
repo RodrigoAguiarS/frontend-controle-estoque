@@ -59,17 +59,17 @@ export class PerfilService {
     );
   }
 
-  create(tipo: Perfil): Observable<Perfil> {
+  create(perfil: Perfil): Observable<Perfil> {
     return this.http.post<Perfil>(
       `${API_CONFIG.baseUrl}/perfis`,
-      tipo
+      perfil
     );
   }
 
-  update(tipo: Perfil): Observable<Perfil> {
+  update(perfil: Perfil): Observable<Perfil> {
     return this.http.put<Perfil>(
-      `${API_CONFIG.baseUrl}/perfis/${tipo.id}`,
-      tipo
+      `${API_CONFIG.baseUrl}/perfis/${perfil.id}`,
+      perfil
     );
   }
 

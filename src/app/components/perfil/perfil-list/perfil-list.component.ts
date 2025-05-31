@@ -89,7 +89,6 @@ export class PerfilListComponent {
     this.perfilService.buscarPaginado(params).subscribe({
       next: (response) => {
         this.perfis = response.content;
-        console.log(response);
         this.nenhumResultadoEncontrado = this.perfis.length === 0;
         this.totalElementos = response.page.totalElements;
         this.carregando = false;
