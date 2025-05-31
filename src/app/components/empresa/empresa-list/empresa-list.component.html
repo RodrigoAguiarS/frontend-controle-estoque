@@ -1,0 +1,77 @@
+<div class="container">
+  <nz-alert
+    *ngIf="
+      (alertaService.tipoAlerta$ | async) &&
+      (alertaService.mensagemAlerta$ | async)
+    "
+    [nzType]="(alertaService.tipoAlerta$ | async) || 'info'"
+    [nzMessage]="alertaService.mensagemAlerta$ | async"
+    nzShowIcon
+    nzCloseable
+    (nzOnClose)="alertaService.limparAlerta()"
+  ></nz-alert>
+
+  <div class="container-busca">
+    <h2>Buscar Unidades</h2>
+    <form [formGroup]="filtroForm" (ngSubmit)="buscarTiposProduto()">
+      <input
+        nz-input
+        mask="00.000.000/0000-00"
+        type="text"
+        placeholder="cnpj"
+        formControlName="cnpj"
+      />
+      <input nz-input placeholder="Nome" formControlName="nome" />
+      <button [nzLoading]="carregando" nz-button nzType="primary" type="submit">
+        <i nz-icon nzType="search"></i> Buscar
+      </button>
+    </form>
+  </div>
+  <h2>Lista de Unidades</h2>
+  <nz-table
+    #tabelaPrincipal
+    class="tabela-padrao"
+    [nzData]="empresas"
+    [nzPageSize]="itensPorPagina"
+    [nzFrontPagination]="false"
+    [nzPageIndex]="paginaAtual"
+    [nzLoading]="carregando"
+    [nzBordered]="true"
+    [nzTotal]="totalElementos"
+    (nzPageIndexChange)="aoMudarPagina($event)"
+  >
+    <thead>
+      <tr>
+        <th scope="col">Número</th>
+        <th scope="col">Nome</th>
+        <th scope="col">cnpj</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empresa of empresas">
+        <td>{{ empresa.id }}</td>
+        <td>{{ empresa.nome }}</td>
+        <td>{{ empresa.cnpj | cnpj }}</td>
+        <td>
+          <a [routerLink]="['/empresas/update', empresa.id]">
+            <i
+              nz-icon
+              nzType="edit"
+              nzTheme="outline"
+              title="Atualizar Status"
+            ></i>
+          </a>
+          <a [routerLink]="['/empresas/delete', empresa.id]">
+            <i
+              nz-icon
+              nzType="delete"
+              nzTheme="outline"
+              title="Deletar Tipo"
+            ></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

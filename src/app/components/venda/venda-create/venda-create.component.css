@@ -1,6 +1,6 @@
-/* Estilos Gerais */
 .pdv-container {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   background-color: #f5f7fa;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -8,12 +8,12 @@
   flex-direction: column;
   height: 80vh;
   margin: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* Cabeçalho */
 .pdv-header {
-  background-color:#001529;
+  background-color: #001529;
   color: white;
   padding: 12px 20px;
   display: flex;
@@ -21,11 +21,12 @@
   align-items: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  flex-shrink: 0;
 }
 
 .pdv-header h1 {
   margin: 0;
-  font-size: 20px;
+  font-size: clamp(16px, 2vw, 20px); /* Tamanho responsivo */
   font-weight: 500;
   color: white;
 }
@@ -39,7 +40,8 @@
 .pdv-main {
   display: flex;
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
+  min-height: 0;
 }
 
 /* Painéis */
@@ -112,7 +114,7 @@
 /* Tabela de Produtos */
 .products-table-wrapper {
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
 }
@@ -236,7 +238,8 @@
 }
 
 .summary-content {
-  padding: 16px;
+  overflow-y: auto; /* Scroll no conteúdo do resumo */
+  max-height: 300px; /* Altura máxima antes do scroll */
 }
 
 .summary-item {
@@ -317,6 +320,27 @@
   border-color: #d9d9d9;
 }
 
+/* Para melhor experiência mobile: */
+@media (max-width: 480px) {
+  .pdv-panel {
+    padding: 12px 8px;
+  }
+
+  .col-action {
+    width: 10%; /* Mais espaço para toques */
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Melhorar acessibilidade em inputs */
+.input-with-icon input,
+.payment-select {
+  font-size: 16px; /* Evita zoom em mobile */
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .pdv-main {
@@ -345,8 +369,19 @@
     margin-top: 8px;
   }
 
+  /* Otimização para tabela em mobile */
+  .products-table {
+    min-width: 600px; /* Força scroll horizontal */
+  }
+
   .quantity-input {
     width: 100%;
+  }
+
+  /* Cabeçalho compacto */
+  .pdv-header {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }
 

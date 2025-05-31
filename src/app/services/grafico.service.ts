@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { TipoProdutoEstoqueResponse } from '../model/TipoProdutoEstoqueResponse';
 import { MovimentacaoResponse } from '../model/MovimentacaoResponse';
 import { CaixaInfo } from '../model/CaixaInfo';
-import { Venda } from '../model/Venda';
 import { VendasPorFormaPagamentoResponse } from '../model/VendasPorFormaPagamentoResponse';
 import { VendasPorUnidadeResponse } from '../model/VendasPorUnidadeResponse';
 

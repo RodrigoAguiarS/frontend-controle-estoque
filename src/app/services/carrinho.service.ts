@@ -1,4 +1,3 @@
-import { Venda } from './../model/Venda';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ItemVenda } from '../model/ItemVenda';
@@ -47,6 +46,7 @@ export class CarrinhoService {
         id: 0,
         produto,
         quantidade,
+        observacao,
         valorUnitario: precoUnitario,
         valorTotal,
       };

@@ -1,1 +1,91 @@
-<p>empresa-create works!</p>
+<div class="container-wrapper">
+  <nz-spin [nzSpinning]="carregando">
+    <div class="container">
+      <nz-card [nzBordered]="false" class="form-container">
+        <form
+          nz-form
+          nzLayout="vertical"
+          [formGroup]="empresaForm"
+          (ngSubmit)="criar()"
+          class="status-form"
+        >
+          <!-- Cabeçalho -->
+          <h2 class="form-title">Cadastrar Empresa</h2>
+
+          <!-- Informações da Empresa -->
+          <h3 class="form-section-title">Informações da Empresa</h3>
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="nome"
+                  >Nome</nz-form-label
+                >
+                <nz-form-control
+                  nzErrorTip="Por favor informe o nome da unidade!"
+                >
+                  <input
+                    id="nome"
+                    nz-input
+                    maxlength="50"
+                    formControlName="nome"
+                    placeholder="nome da empresa"
+                    required
+                  />
+                  <div class="char-counter">
+                    {{ empresaForm.get("nome")?.value?.length || 0 }}/50
+                    caracteres
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <!-- Campo de telefone adicionado -->
+            <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="12">
+              <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="telefone"
+                  >Telefone</nz-form-label
+                >
+                <nz-form-control
+                  nzErrorTip="Por favor informe um telefone válido!"
+                >
+                  <input
+                    id="cnpj"
+                    nz-input
+                    formControlName="cnpj"
+                    placeholder="cnpj"
+                    required
+                    mask="00.000.000/0000-00"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+
+          </div>
+
+          <!-- Ações -->
+          <div class="form-actions">
+            <button
+              type="button"
+              nz-button
+              nzType="default"
+              (click)="cancelar()"
+            >
+              Cancelar
+            </button>
+            <button
+              [nzLoading]="carregando"
+              type="submit"
+              nz-button
+              nzType="primary"
+              [disabled]="!empresaForm.valid"
+            >
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </nz-card>
+    </div>
+  </nz-spin>
+</div>
+

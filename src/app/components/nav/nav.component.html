@@ -8,9 +8,7 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <div class="logo-container">
-
-      </div>
+      <div class="logo-container"></div>
     </div>
     <ul
       nz-menu
@@ -19,13 +17,30 @@
       [nzInlineCollapsed]="isCollapsed"
     >
       <!-- HOME -->
-      <li nz-menu-item [nzMatchRouter]="true" routerLink="/home">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.SUPERADM) ||
+          roles.includes(ACESSO.OPERADOR)
+        "
+        nz-menu-item
+        [nzMatchRouter]="true"
+        routerLink="/home"
+      >
         <i nz-icon nzType="dashboard"></i>
         <span>Home</span>
       </li>
 
       <!-- UNIDADE -->
-      <li nz-submenu nzTitle="Unidades" nzIcon="global">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Unidades"
+        nzIcon="global"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/unidades/create">
             <i nz-icon nzType="plus-circle"></i>
@@ -39,7 +54,16 @@
       </li>
 
       <!-- CAIXA -->
-      <li nz-submenu nzTitle="Caixas" nzIcon="dollar">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.OPERADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Caixas"
+        nzIcon="dollar"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/caixas/abrir">
             <i nz-icon nzType="plus-circle"></i>
@@ -48,8 +72,35 @@
         </ul>
       </li>
 
+      <!-- EMPRESA -->
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Empresa"
+        nzIcon="profile"
+      >
+        <ul>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/empresas/create">
+            <i nz-icon nzType="plus-circle"></i>
+            <span>Cadastrar</span>
+          </li>
+          <li nz-menu-item [nzMatchRouter]="true" routerLink="/empresas/list">
+            <i nz-icon nzType="unordered-list"></i>
+            <span>Listar</span>
+          </li>
+        </ul>
+      </li>
+
       <!-- PERFIL -->
-      <li nz-submenu nzTitle="Perfil" nzIcon="profile">
+      <li
+        *ngIf="roles.includes(ACESSO.SUPERADM)"
+        nz-submenu
+        nzTitle="Perfil"
+        nzIcon="profile"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/perfis/create">
             <i nz-icon nzType="plus-circle"></i>
@@ -63,7 +114,15 @@
       </li>
 
       <!-- USUARIO -->
-      <li nz-submenu nzTitle="Usuário" nzIcon="user">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Usuário"
+        nzIcon="user"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/usuarios/create">
             <i nz-icon nzType="plus-circle"></i>
@@ -77,7 +136,16 @@
       </li>
 
       <!-- PRODUTO -->
-      <li nz-submenu nzTitle="Produto" nzIcon="shopping-cart">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.OPERADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Produto"
+        nzIcon="shopping-cart"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/produtos/create">
             <i nz-icon nzType="plus-circle"></i>
@@ -91,7 +159,15 @@
       </li>
 
       <!-- VENDA -->
-      <li nz-submenu nzTitle="Venda" nzIcon="shopping">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Venda"
+        nzIcon="shopping"
+      >
         <ul>
           <li nz-menu-item [nzMatchRouter]="true" routerLink="/vendas/create">
             <i nz-icon nzType="plus-circle"></i>
@@ -105,7 +181,12 @@
       </li>
 
       <!-- FORMA DE PAGAMENTO -->
-      <li nz-submenu nzTitle="Forma de Pagamento" nzIcon="credit-card">
+      <li
+        *ngIf="roles.includes(ACESSO.SUPERADM)"
+        nz-submenu
+        nzTitle="Forma de Pagamento"
+        nzIcon="credit-card"
+      >
         <ul>
           <li
             nz-menu-item
@@ -123,7 +204,16 @@
       </li>
 
       <!-- TIPO DE PRODUTO -->
-      <li nz-submenu nzTitle="Tipo de Produto" nzIcon="tags">
+      <li
+        *ngIf="
+          roles.includes(ACESSO.ADMINISTRADOR) ||
+          roles.includes(ACESSO.OPERADOR) ||
+          roles.includes(ACESSO.SUPERADM)
+        "
+        nz-submenu
+        nzTitle="Tipo de Produto"
+        nzIcon="tags"
+      >
         <ul>
           <li
             nz-menu-item
@@ -142,6 +232,11 @@
             <span>Listar</span>
           </li>
         </ul>
+      </li>
+      <!-- LOGOUT -->
+      <li nz-menu-item (click)="deslogar()" (keydown)="onKeyDown($event)">
+        <i nz-icon nzType="logout"></i>
+        <span>Sair</span>
       </li>
     </ul>
   </nz-sider>
